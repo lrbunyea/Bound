@@ -17,12 +17,12 @@ public class OxygenMeterController : MonoBehaviour {
 
     void Start()
     {
-        oxygenSlider.value = 100;
+        oxygenSlider.value = GameManager.Instance.currentOxygen;
     }
 
     void Update()
     {
-
+        oxygenSlider.value = GameManager.Instance.currentOxygen;
     }
     #endregion
 }

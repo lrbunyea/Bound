@@ -9,7 +9,10 @@ public class InputManager : MonoBehaviour {
     //Singleton pattern
     public static InputManager Instance;
 
+    //Input events
     public UnityEvent MinigameStart;
+    public UnityEvent RunKeyPressed;
+    public UnityEvent BreatheKeyPressed;
     #endregion
 
     #region Unity API Functions
@@ -27,13 +30,22 @@ public class InputManager : MonoBehaviour {
 
         //Initialize all events - Must be in the awake function
         MinigameStart = new UnityEvent();
+        RunKeyPressed = new UnityEvent();
+        BreatheKeyPressed = new UnityEvent();
     }
 
     void Update () {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Event is invoked");
             MinigameStart.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            RunKeyPressed.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            BreatheKeyPressed.Invoke();
         }
 	}
     #endregion

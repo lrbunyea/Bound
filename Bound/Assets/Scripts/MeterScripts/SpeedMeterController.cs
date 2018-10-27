@@ -15,12 +15,14 @@ public class SpeedMeterController : MonoBehaviour {
         speedSlider = this.GetComponent<Slider>();
     }
 
-    void Start () {
-        speedSlider.value = 0;
+    void Start ()
+    {
+        speedSlider.value = GameManager.Instance.currentSpeed;
 	}
 	
-	void Update () {
-		
+	void Update ()
+    {
+        speedSlider.value = GameManager.Instance.currentSpeed;
 	}
     #endregion
 }

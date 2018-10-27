@@ -17,12 +17,12 @@ public class ConsciousnessMeterController : MonoBehaviour {
 
     void Start()
     {
-        conSlider.value = 100;
+        conSlider.value = GameManager.Instance.currentConsciousness;
     }
 
     void Update()
     {
-
+        conSlider.value = GameManager.Instance.currentConsciousness;
     }
     #endregion
 }
