@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour {
 
@@ -17,7 +18,13 @@ public class GameManager : MonoBehaviour {
         Minigame
     }
 
+    //Potential player input keys
+    private string[] allPaceKeys;
+    private string[] allBreatheKeys;
+
     //Minigame events
+    public UnityEvent CyclePaceKey;
+    public UnityEvent CycleBreatheKey;
 
     //public variables
     public float currentSpeed;
@@ -25,6 +32,8 @@ public class GameManager : MonoBehaviour {
     public float currentOxMod;
     public float currentConsciousness;
     public int currentConExp;
+    public string currentPaceKey;
+    public string currentBreatheKey;
     //private variables
     private GameState currentState;
     #endregion
@@ -42,7 +51,12 @@ public class GameManager : MonoBehaviour {
             Instance = this;
         }
 
+        allPaceKeys = new string[] { "W", "E", "R" };
+        allBreatheKeys = new string[] {"B", "N", "M" };
+
         //Initialize all events - Must be in the awake function
+        CyclePaceKey = new UnityEvent();
+        CycleBreatheKey = new UnityEvent();
     }
 
     void Start()
@@ -50,10 +64,12 @@ public class GameManager : MonoBehaviour {
         //set current game state
         currentState = GameState.PreMinigame;
         SetSlidersToDefault();
+        SetRandomPaceKey();
+        SetRandomBreatheKey();
 
         //Register functions to events
         InputManager.Instance.MinigameStart.AddListener(SetGameStateToMinigame);
-        InputManager.Instance.RunKeyPressed.AddListener(IncreaseSpeed);
+        InputManager.Instance.RunKeyPressed.AddListener(DecreaseSpeed);
         InputManager.Instance.BreatheKeyPressed.AddListener(Breathe);
     }
 
@@ -105,9 +121,9 @@ public class GameManager : MonoBehaviour {
             }
 
             //Finally, update meter values
-            if (currentSpeed > 52)
+            if (currentSpeed < 93)
             {
-                currentSpeed -= 2 * Time.deltaTime;
+                currentSpeed += 7 * Time.deltaTime;
             }
             currentOxygen -= (2 * currentOxMod) * Time.deltaTime;
 
@@ -142,14 +158,16 @@ public class GameManager : MonoBehaviour {
     /// <summary>
     /// Function called when the user presses the correct run button.
     /// </summary>
-    private void IncreaseSpeed()
+    private void DecreaseSpeed()
     {
-        //Check to see if the value will go beyond the max
-        if (currentSpeed >= 100)
+        //Check to see if the value will go below the min
+        if (currentSpeed <= 50)
         {
             return;
         }
-        currentSpeed += 5;
+        currentSpeed -= 5;
+        SetRandomPaceKey();
+        CyclePaceKey.Invoke();
     }
 
     /// <summary>
@@ -174,6 +192,26 @@ public class GameManager : MonoBehaviour {
         {
             currentConsciousness += 5;
         }
+        SetRandomBreatheKey();
+        CycleBreatheKey.Invoke();
+    }
+
+    /// <summary>
+    /// Changes next pace key that player must input to random key from allPaceKeys array.
+    /// </summary>
+    private void SetRandomPaceKey()
+    {
+        int item = Random.Range(0, allPaceKeys.Length);
+        currentPaceKey = allPaceKeys[item];
+    }
+
+    /// <summary>
+    /// Changes next greath key that player must input to random key from allBreathKeys array.
+    /// </summary>
+    private void SetRandomBreatheKey()
+    {
+        int item = Random.Range(0, allBreatheKeys.Length);
+        currentBreatheKey = allBreatheKeys[item];
     }
     #endregion
 
@@ -193,6 +231,8 @@ public class GameManager : MonoBehaviour {
     public void SetGameStateToMinigame()
     {
         currentState = GameState.Minigame;
+        CyclePaceKey.Invoke();
+        CycleBreatheKey.Invoke();
     }
     #endregion
 }

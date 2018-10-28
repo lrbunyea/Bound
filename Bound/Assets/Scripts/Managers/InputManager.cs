@@ -39,14 +39,34 @@ public class InputManager : MonoBehaviour {
         {
             MinigameStart.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.W))
+
+        //Check conditions for steady pace
+        if (Input.GetKeyDown(KeyCode.W) && GameManager.Instance.currentPaceKey == "W")
         {
             RunKeyPressed.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.E) && GameManager.Instance.currentPaceKey == "E")
+        {
+            RunKeyPressed.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.currentPaceKey == "R")
+        { 
+            RunKeyPressed.Invoke();
+        }
+
+        //Check conditions for breathing
+        if (Input.GetKeyDown(KeyCode.B) && GameManager.Instance.currentBreatheKey == "B")
         {
             BreatheKeyPressed.Invoke();
         }
-	}
+        if (Input.GetKeyDown(KeyCode.N) && GameManager.Instance.currentBreatheKey == "N")
+        {
+            BreatheKeyPressed.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.M) && GameManager.Instance.currentBreatheKey == "M")
+        {
+            BreatheKeyPressed.Invoke();
+        }
+    }
     #endregion
 }

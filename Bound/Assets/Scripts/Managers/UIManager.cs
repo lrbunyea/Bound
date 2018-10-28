@@ -7,9 +7,6 @@ public class UIManager : MonoBehaviour {
 
     #region Variables
     [SerializeField] GameObject minigameCanvas;
-    [SerializeField] Slider speed;
-    [SerializeField] Slider oxygen;
-    [SerializeField] Slider consciousness;
     #endregion
 
     #region Unity API Functions
