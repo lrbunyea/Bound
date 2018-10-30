@@ -12,7 +12,9 @@ public class InputManager : MonoBehaviour {
     //Input events
     public UnityEvent MinigameStart;
     public UnityEvent RunKeyPressed;
+    public UnityEvent IncorrectRunKeyPressed;
     public UnityEvent BreatheKeyPressed;
+    public UnityEvent IncorrectBreatheKeyPressed;
     #endregion
 
     #region Unity API Functions
@@ -31,6 +33,7 @@ public class InputManager : MonoBehaviour {
         //Initialize all events - Must be in the awake function
         MinigameStart = new UnityEvent();
         RunKeyPressed = new UnityEvent();
+        IncorrectRunKeyPressed = new UnityEvent();
         BreatheKeyPressed = new UnityEvent();
     }
 
@@ -44,28 +47,60 @@ public class InputManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.W) && GameManager.Instance.currentPaceKey == "W")
         {
             RunKeyPressed.Invoke();
+        } else if (Input.GetKeyDown(KeyCode.W) && GameManager.Instance.currentPaceKey != "W")
+        {
+            IncorrectRunKeyPressed.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.E) && GameManager.Instance.currentPaceKey == "E")
+        if (Input.GetKeyDown(KeyCode.A) && GameManager.Instance.currentPaceKey == "A")
         {
             RunKeyPressed.Invoke();
+        } else if (Input.GetKeyDown(KeyCode.A) && GameManager.Instance.currentPaceKey != "A")
+        {
+            IncorrectRunKeyPressed.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.currentPaceKey == "R")
+        if (Input.GetKeyDown(KeyCode.S) && GameManager.Instance.currentPaceKey == "S")
         { 
             RunKeyPressed.Invoke();
+        } else if (Input.GetKeyDown(KeyCode.S) && GameManager.Instance.currentPaceKey != "S")
+        {
+            IncorrectRunKeyPressed.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.D) && GameManager.Instance.currentPaceKey == "D")
+        {
+            RunKeyPressed.Invoke();
+        } else if (Input.GetKeyDown(KeyCode.D) && GameManager.Instance.currentPaceKey != "D")
+        {
+            IncorrectRunKeyPressed.Invoke();
         }
 
         //Check conditions for breathing
-        if (Input.GetKeyDown(KeyCode.B) && GameManager.Instance.currentBreatheKey == "B")
+        if (Input.GetKeyDown(KeyCode.UpArrow) && GameManager.Instance.currentBreatheKey == "↑")
         {
             BreatheKeyPressed.Invoke();
+        } else if (Input.GetKeyDown(KeyCode.UpArrow) && GameManager.Instance.currentBreatheKey != "↑")
+        {
+            IncorrectBreatheKeyPressed.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.N) && GameManager.Instance.currentBreatheKey == "N")
+        if (Input.GetKeyDown(KeyCode.DownArrow) && GameManager.Instance.currentBreatheKey == "↓")
         {
             BreatheKeyPressed.Invoke();
+        } else if (Input.GetKeyDown(KeyCode.DownArrow) && GameManager.Instance.currentBreatheKey != "↓")
+        {
+            IncorrectBreatheKeyPressed.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.M) && GameManager.Instance.currentBreatheKey == "M")
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && GameManager.Instance.currentBreatheKey == "←")
         {
             BreatheKeyPressed.Invoke();
+        } else if (Input.GetKeyDown(KeyCode.LeftArrow) && GameManager.Instance.currentBreatheKey != "←")
+        {
+            IncorrectBreatheKeyPressed.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow) && GameManager.Instance.currentBreatheKey == "→")
+        {
+            BreatheKeyPressed.Invoke();
+        } else if (Input.GetKeyDown(KeyCode.RightArrow) && GameManager.Instance.currentBreatheKey != "→")
+        {
+            IncorrectBreatheKeyPressed.Invoke();
         }
     }
     #endregion

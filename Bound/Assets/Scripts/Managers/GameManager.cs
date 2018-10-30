@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour {
     public int currentConExp;
     public string currentPaceKey;
     public string currentBreatheKey;
+    public bool isBreatheCooldownActive;
     //private variables
     private GameState currentState;
     #endregion
@@ -51,8 +52,8 @@ public class GameManager : MonoBehaviour {
             Instance = this;
         }
 
-        allPaceKeys = new string[] { "W", "E", "R" };
-        allBreatheKeys = new string[] {"B", "N", "M" };
+        allPaceKeys = new string[] { "W", "A", "S", "D" };
+        allBreatheKeys = new string[] {"←", "→", "↑", "↓" };
 
         //Initialize all events - Must be in the awake function
         CyclePaceKey = new UnityEvent();
@@ -66,11 +67,14 @@ public class GameManager : MonoBehaviour {
         SetSlidersToDefault();
         SetRandomPaceKey();
         SetRandomBreatheKey();
+        SetBreatheCooldownInactive();
 
         //Register functions to events
         InputManager.Instance.MinigameStart.AddListener(SetGameStateToMinigame);
         InputManager.Instance.RunKeyPressed.AddListener(DecreaseSpeed);
+        InputManager.Instance.IncorrectRunKeyPressed.AddListener(Fumble);
         InputManager.Instance.BreatheKeyPressed.AddListener(Breathe);
+        InputManager.Instance.IncorrectBreatheKeyPressed.AddListener(Gasp);
     }
 
     void Update () {
@@ -171,29 +175,63 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Called when the user presses pace key that doesn't match the prompt.
+    /// </summary>
+    private void Fumble()
+    {
+        if (currentSpeed >= 97)
+        {
+            return;
+        }
+        currentSpeed += 3;
+    }
+
+    /// <summary>
     /// Function called when the user pauses to take a breath.
     /// </summary>
     private void Breathe()
     {
-        //Check to see if value will go beyond the max
-        if (currentOxygen >= 100)
+        //First check to make sure that user can input
+        if (isBreatheCooldownActive)
         {
-            //do nothing
-        }
-        else
+            return;
+        } else
         {
-            currentOxygen += 10;
+            //Check to see if value will go beyond the max
+            if (currentOxygen >= 100)
+            {
+                //do nothing
+            }
+            else
+            {
+                currentOxygen += 10;
+            }
+            if (currentConsciousness >= 100)
+            {
+                //do nothing
+            }
+            else
+            {
+                currentConsciousness += 5;
+            }
+            SetRandomBreatheKey();
+            CycleBreatheKey.Invoke();
+            StartBreatheCooldown();
         }
-        if (currentConsciousness >= 100)
+    }
+
+    /// <summary>
+    /// Called when the user presses breather key that doesn't match the prompt.
+    /// </summary>
+    private void Gasp()
+    {
+        if (currentOxygen <= 3)
         {
-            //do nothing
-        }
-        else
+            return;
+        } else
         {
-            currentConsciousness += 5;
+            currentOxygen -= 3;
         }
-        SetRandomBreatheKey();
-        CycleBreatheKey.Invoke();
     }
 
     /// <summary>
@@ -212,6 +250,14 @@ public class GameManager : MonoBehaviour {
     {
         int item = Random.Range(0, allBreatheKeys.Length);
         currentBreatheKey = allBreatheKeys[item];
+    }
+
+    /// <summary>
+    /// Initiates breathe cooldown where the user cannot inpute any keys to breathe.
+    /// </summary>
+    private void StartBreatheCooldown()
+    {
+        isBreatheCooldownActive = true;
     }
     #endregion
 
@@ -233,6 +279,14 @@ public class GameManager : MonoBehaviour {
         currentState = GameState.Minigame;
         CyclePaceKey.Invoke();
         CycleBreatheKey.Invoke();
+    }
+
+    /// <summary>
+    /// Sets the breathe cooldown flag to false.
+    /// </summary>
+    public void SetBreatheCooldownInactive()
+    {
+        isBreatheCooldownActive = false;
     }
     #endregion
 }
