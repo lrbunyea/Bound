@@ -1,11 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour {
 
-    #region InputEvents
+    #region Variables
     //Singleton pattern
     public static GameManager Instance;
 
@@ -34,9 +34,12 @@ public class GameManager : MonoBehaviour {
     public int currentConExp;
     public string currentPaceKey;
     public string currentBreatheKey;
+    public float currentDifMult;
     public bool isBreatheCooldownActive;
     //private variables
     private GameState currentState;
+    [SerializeField] float minigameDifficultyTimer;
+    [SerializeField] float timeLeft;
     #endregion
 
     #region Unity API Functions
@@ -68,6 +71,8 @@ public class GameManager : MonoBehaviour {
         SetRandomPaceKey();
         SetRandomBreatheKey();
         SetBreatheCooldownInactive();
+        timeLeft = minigameDifficultyTimer;
+        currentDifMult = 1;
 
         //Register functions to events
         InputManager.Instance.MinigameStart.AddListener(SetGameStateToMinigame);
@@ -127,21 +132,22 @@ public class GameManager : MonoBehaviour {
             //Finally, update meter values
             if (currentSpeed < 93)
             {
-                currentSpeed += 7 * Time.deltaTime;
+                currentSpeed += 7 * currentDifMult * Time.deltaTime;
             }
-            currentOxygen -= (2 * currentOxMod) * Time.deltaTime;
+            currentOxygen -= (2 * currentOxMod) * currentDifMult * Time.deltaTime;
 
 
             //Check lose condition
             if (currentConsciousness > 0)
             {
-                currentConsciousness -= Mathf.Pow(2, currentConExp) * Time.deltaTime;
+                currentConsciousness -= Mathf.Pow(2, currentConExp) * currentDifMult * Time.deltaTime;
             }
             else
             {
                 Application.Quit();
             }
-            
+
+            DifficultyTimer();
         }
 	}
     #endregion
@@ -258,6 +264,22 @@ public class GameManager : MonoBehaviour {
     private void StartBreatheCooldown()
     {
         isBreatheCooldownActive = true;
+    }
+
+    /// <summary>
+    /// Keeps track what the minigame difficulty multiplier is.
+    /// </summary>
+    private void DifficultyTimer()
+    {
+        if (currentState == GameState.Minigame)
+        {
+            timeLeft -= Time.deltaTime;
+            if (timeLeft < 0)
+            {
+                timeLeft = minigameDifficultyTimer;
+                currentDifMult++;
+            }
+        }
     }
     #endregion
 
