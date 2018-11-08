@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour {
         SetRandomBreatheKey();
         SetBreatheCooldownInactive();
         timeLeft = minigameDifficultyTimer;
-        currentDifMult = 1;
+        currentDifMult = .5f;
 
         //Register functions to events
         GameManager.Instance.MinigameStart.AddListener(SetGameStateToMinigame);
@@ -281,7 +281,7 @@ public class GameManager : MonoBehaviour {
             if (timeLeft < 0)
             {
                 timeLeft = minigameDifficultyTimer;
-                currentDifMult++;
+                currentDifMult += .5f;
             }
         }
     }
