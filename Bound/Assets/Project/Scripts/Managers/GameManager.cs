@@ -28,6 +28,18 @@ public class GameManager : MonoBehaviour {
     public UnityEvent CycleBreatheKey;
     public UnityEvent MinigameStart;
 
+    //editable variables
+    public float difficultyMultIncrement;
+    public float timeStageDuration;
+    public float correctSpeed;
+    public float correctOxygen;
+    public float correctCon;
+    public float incorrectSpeed;
+    public float incorrectOxygen;
+    public float speedGain;
+    public float oxygenLoss;
+    public float conLoss;
+
     //public variables
     public float currentSpeed;
     public float currentOxygen;
@@ -40,7 +52,6 @@ public class GameManager : MonoBehaviour {
     public bool isBreatheCooldownActive;
     //private variables
     private GameState currentState;
-    [SerializeField] float minigameDifficultyTimer;
     [SerializeField] float timeLeft;
     [SerializeField] GameObject fpsCont;
     #endregion
@@ -61,6 +72,9 @@ public class GameManager : MonoBehaviour {
         allPaceKeys = new string[] { "W", "A", "S", "D" };
         allBreatheKeys = new string[] {"←", "→", "↑", "↓" };
 
+        //Initialize minigame values
+        SetDefaultMinigameValues();
+
         //Initialize all events - Must be in the awake function
         CyclePaceKey = new UnityEvent();
         CycleBreatheKey = new UnityEvent();
@@ -70,13 +84,12 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         //set current game state
-        currentState = GameState.PreMinigame;
+        SetGameStateToMainMenu();
         SetSlidersToDefault();
         SetRandomPaceKey();
         SetRandomBreatheKey();
         SetBreatheCooldownInactive();
-        timeLeft = minigameDifficultyTimer;
-        currentDifMult = .5f;
+        timeLeft = timeStageDuration;
 
         //Register functions to events
         GameManager.Instance.MinigameStart.AddListener(SetGameStateToMinigame);
@@ -134,17 +147,17 @@ public class GameManager : MonoBehaviour {
             }
 
             //Finally, update meter values
-            if (currentSpeed < 93)
+            if (currentSpeed < 100)
             {
-                currentSpeed += 7 * currentDifMult * Time.deltaTime;
+                currentSpeed += speedGain * currentDifMult * Time.deltaTime;
             }
-            currentOxygen -= (2 * currentOxMod) * currentDifMult * Time.deltaTime;
+            currentOxygen -= (oxygenLoss * currentOxMod) * currentDifMult * Time.deltaTime;
 
 
             //Check lose condition
             if (currentConsciousness > 0)
             {
-                currentConsciousness -= Mathf.Pow(2, currentConExp) * currentDifMult * Time.deltaTime;
+                currentConsciousness -= Mathf.Pow(conLoss, currentConExp) * currentDifMult * Time.deltaTime;
             }
             else
             {
@@ -170,6 +183,25 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Sets default minigame multipliers so that the main menu can grab them for potential tweaking
+    /// Will eventually pull from a save file
+    /// </summary>
+    private void SetDefaultMinigameValues()
+    {
+        currentDifMult = .5f;
+        difficultyMultIncrement = 0.5f;
+        timeStageDuration = 20;
+        correctSpeed = 5;
+        correctOxygen = 10;
+        correctCon = 5;
+        incorrectSpeed = 3;
+        incorrectOxygen = 3;
+        speedGain = 7;
+        oxygenLoss = 2;
+        conLoss = 2;
+    }
+
+    /// <summary>
     /// Function called when the user presses the correct run button.
     /// </summary>
     private void DecreaseSpeed()
@@ -179,7 +211,7 @@ public class GameManager : MonoBehaviour {
         {
             return;
         }
-        currentSpeed -= 5;
+        currentSpeed -= correctSpeed;
         SetRandomPaceKey();
         CyclePaceKey.Invoke();
     }
@@ -189,11 +221,11 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private void Fumble()
     {
-        if (currentSpeed >= 97)
+        if (currentSpeed >= 100)
         {
             return;
         }
-        currentSpeed += 3;
+        currentSpeed += incorrectSpeed;
     }
 
     /// <summary>
@@ -214,7 +246,7 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
-                currentOxygen += 10;
+                currentOxygen += correctOxygen;
             }
             if (currentConsciousness >= 100)
             {
@@ -222,7 +254,7 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
-                currentConsciousness += 5;
+                currentConsciousness += correctCon;
             }
             SetRandomBreatheKey();
             CycleBreatheKey.Invoke();
@@ -235,12 +267,12 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private void Gasp()
     {
-        if (currentOxygen <= 3)
+        if (currentOxygen <= 0)
         {
             return;
         } else
         {
-            currentOxygen -= 3;
+            currentOxygen -= incorrectOxygen;
         }
     }
 
@@ -280,8 +312,8 @@ public class GameManager : MonoBehaviour {
             timeLeft -= Time.deltaTime;
             if (timeLeft < 0)
             {
-                timeLeft = minigameDifficultyTimer;
-                currentDifMult += .5f;
+                timeLeft = timeStageDuration;
+                currentDifMult += difficultyMultIncrement;
             }
         }
     }
@@ -289,12 +321,22 @@ public class GameManager : MonoBehaviour {
 
     #region Helper Functions
     /// <summary>
-    /// Sets the game state to passed parameter.
+    /// Signals to the game manager that the player is in the main menu and to disable movement controls
     /// </summary>
-    /// <param name="curState">New state to change the current game state to.</param>
-    public void SetGameState(GameState curState)
+    public void SetGameStateToMainMenu()
     {
-        currentState = curState;
+        currentState = GameState.MainMenu;
+        fpsCont.GetComponent<FirstPersonController>().enabled = false;
+    }
+
+
+    /// <summary>
+    /// Signals to the game manager to enable the player to walk around the space.
+    /// </summary>
+    public void SetGameStateToPreMiniGame()
+    {
+        currentState = GameState.PreMinigame;
+        fpsCont.GetComponent<FirstPersonController>().enabled = true;
     }
 
     /// <summary>
