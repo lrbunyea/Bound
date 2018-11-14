@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour {
     [SerializeField] InputField icoField;
     [SerializeField] InputField sgField;
     [SerializeField] InputField olField;
+    //player id
+    [SerializeField] InputField playerID;
     #endregion
 
     #region Unity API Functions
@@ -57,6 +59,7 @@ public class UIManager : MonoBehaviour {
     {
         mainMenuCanvas.SetActive(false);
         GameManager.Instance.SetGameStateToPreMiniGame();
+        AnalyticsManager.Instance.hasStarted = true;
     }
 
     /// <summary>
@@ -96,7 +99,7 @@ public class UIManager : MonoBehaviour {
     /// </summary>
     public void SavePlayerID()
     {
-        //write to file
+        AnalyticsManager.Instance.PlayerIDEntered(playerID.text);
     }
     #endregion
 }

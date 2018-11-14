@@ -49,9 +49,10 @@ public class GameManager : MonoBehaviour {
     public string currentPaceKey;
     public string currentBreatheKey;
     public float currentDifMult;
+    public int currentTimeStage;
     public bool isBreatheCooldownActive;
+    public GameState currentState;
     //private variables
-    private GameState currentState;
     [SerializeField] float timeLeft;
     [SerializeField] GameObject fpsCont;
     #endregion
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour {
         timeLeft = timeStageDuration;
 
         //Register functions to events
-        GameManager.Instance.MinigameStart.AddListener(SetGameStateToMinigame);
+        Instance.MinigameStart.AddListener(SetGameStateToMinigame);
         InputManager.Instance.RunKeyPressed.AddListener(DecreaseSpeed);
         InputManager.Instance.IncorrectRunKeyPressed.AddListener(Fumble);
         InputManager.Instance.BreatheKeyPressed.AddListener(Breathe);
@@ -161,6 +162,8 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
+                AnalyticsManager.Instance.LogTimeSpentMinigame();
+                AnalyticsManager.Instance.LogTotalTimeSpent();
                 Application.Quit();
             }
 
@@ -199,6 +202,7 @@ public class GameManager : MonoBehaviour {
         speedGain = 7;
         oxygenLoss = 2;
         conLoss = 2;
+        currentTimeStage = 0;
     }
 
     /// <summary>
@@ -314,6 +318,7 @@ public class GameManager : MonoBehaviour {
             {
                 timeLeft = timeStageDuration;
                 currentDifMult += difficultyMultIncrement;
+                currentTimeStage++;
             }
         }
     }
