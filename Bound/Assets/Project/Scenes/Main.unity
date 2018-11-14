@@ -2628,7 +2628,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 396299114}
   m_LocalRotation: {x: -0, y: 0.06818901, z: -0, w: 0.99767244}
-  m_LocalPosition: {x: 157.7, y: 1.28, z: 0.4}
+  m_LocalPosition: {x: 154.2, y: 1.28, z: -25.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2045556714}
@@ -6375,6 +6375,7 @@ MonoBehaviour:
   currentDifMult: 0
   currentTimeStage: 0
   isBreatheCooldownActive: 0
+  currentState: 0
   timeLeft: 0
   fpsCont: {fileID: 396299114}
 --- !u!4 &1110391229

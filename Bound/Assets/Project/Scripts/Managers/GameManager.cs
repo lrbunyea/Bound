@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
+                AnalyticsManager.Instance.LogMinigameValues();
                 AnalyticsManager.Instance.LogTimeSpentMinigame();
                 AnalyticsManager.Instance.LogTotalTimeSpent();
                 Application.Quit();

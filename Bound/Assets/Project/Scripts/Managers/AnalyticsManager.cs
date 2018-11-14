@@ -111,12 +111,29 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Caled by the input manager when an incorrect pace key is pressed.
+    /// Calced by the input manager when an incorrect pace key is pressed.
     /// </summary>
     /// <param name="key"></param>
     public void IncorrectPaceKeyPressed(string key)
     {
         GameAnalytics.NewDesignEvent("KeyPressed:Pace:Incorrect:" + key, GameManager.Instance.currentTimeStage);
+    }
+
+    /// <summary>
+    /// Called by the GameManager right before the game ends. Records the minigame values that were set.
+    /// </summary>
+    public void LogMinigameValues()
+    {
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:DifficultyMultiplierIncrement", GameManager.Instance.difficultyMultIncrement);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:TimeStageDuration", GameManager.Instance.timeStageDuration);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:CorrectSpeed", GameManager.Instance.correctSpeed);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:CorrectOxygen", GameManager.Instance.correctOxygen);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:CorrectConsciousness", GameManager.Instance.correctCon);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:IncorrectSpeed", GameManager.Instance.incorrectSpeed);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:IncorrectOxygen", GameManager.Instance.incorrectOxygen);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:SpeedGain", GameManager.Instance.speedGain);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:OxygenLoss", GameManager.Instance.oxygenLoss);
+        GameAnalytics.NewDesignEvent("TestValues:Minigame:ConsciousnessLoss", GameManager.Instance.conLoss);
     }
     #endregion
 }
