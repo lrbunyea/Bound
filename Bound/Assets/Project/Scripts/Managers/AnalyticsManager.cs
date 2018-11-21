@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameAnalyticsSDK;
+using System.IO;
 
 public class AnalyticsManager : MonoBehaviour {
 
@@ -14,6 +14,9 @@ public class AnalyticsManager : MonoBehaviour {
     private float timePlayed;
     private float timePreMinigame;
     private float timeMinigame;
+
+    private string filePath;
+    private StreamWriter writer;
     #endregion
 
     #region Unity API Functions
@@ -21,7 +24,7 @@ public class AnalyticsManager : MonoBehaviour {
     {
         //Singleton pattern
         if (Instance != null && Instance != this)
-        {
+        { 
             Destroy(this);
         }
         else
@@ -31,9 +34,11 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     void Start () {
-        GameAnalytics.Initialize();
         timePlayed = 0;
         hasStarted = false;
+        //Open streamwriter to write analytics to a CSV file
+        filePath = Application.dataPath + "PlayerData.csv";
+        writer = new StreamWriter(filePath, true);
 
         //Register functions for events
         GameManager.Instance.MinigameStart.AddListener(LogTimeSpentPreMinigame);
@@ -45,6 +50,13 @@ public class AnalyticsManager : MonoBehaviour {
             timePlayed += Time.deltaTime;
         }
 	}
+
+    void OnDestroy()
+    {
+        //Close the stream writer
+        writer.Flush();
+        writer.Close();
+    }
     #endregion
 
     #region Events To Track
@@ -54,7 +66,9 @@ public class AnalyticsManager : MonoBehaviour {
     /// <param name="id">The player's given ID</param>
     public void PlayerIDEntered(string id)
     {
-        GameAnalytics.NewDesignEvent("Player:" + id);
+        writer.WriteLine("PlayerID");
+        writer.WriteLine(id);
+        writer.WriteLine("");
     }
 
     /// <summary>
@@ -63,7 +77,9 @@ public class AnalyticsManager : MonoBehaviour {
     public void LogTimeSpentPreMinigame()
     {
         timePreMinigame = timePlayed;
-        GameAnalytics.NewDesignEvent("Time:PreMinigame:" + timePreMinigame);
+        writer.WriteLine("TimeSpentPreMinigame");
+        writer.WriteLine(timePreMinigame);
+        writer.WriteLine("");
     }
 
     /// <summary>
@@ -72,7 +88,9 @@ public class AnalyticsManager : MonoBehaviour {
     public void LogTimeSpentMinigame()
     {
         timeMinigame = timePlayed - timePreMinigame;
-        GameAnalytics.NewDesignEvent("Time:Minigame:" + timeMinigame);
+        writer.WriteLine("TimeSpentInMinigame");
+        writer.WriteLine(timeMinigame);
+        writer.WriteLine("");
     }
 
     /// <summary>
@@ -80,7 +98,10 @@ public class AnalyticsManager : MonoBehaviour {
     /// </summary>
     public void LogTotalTimeSpent()
     {
-        GameAnalytics.NewDesignEvent("Time:Total:" + timePlayed);
+        writer.WriteLine("TotalTimeSpent");
+        writer.WriteLine(timePlayed);
+        writer.WriteLine("");
+        writer.WriteLine("");
     }
 
     /// <summary>
@@ -89,7 +110,7 @@ public class AnalyticsManager : MonoBehaviour {
     /// <param name="key">Key that was pressed by the user</param>
     public void CorrectBreatheKeyPressed(string key)
     {
-        GameAnalytics.NewDesignEvent("KeyPressed:Breathe:Correct:" + key, GameManager.Instance.currentTimeStage);
+        writer.WriteLine("Breathe,Correct,"+key+","+GameManager.Instance.currentTimeStage);
     }
 
     /// <summary>
@@ -98,7 +119,7 @@ public class AnalyticsManager : MonoBehaviour {
     /// <param name="key">Key that was pressed by the user</param>
     public void CorrectPaceKeyPressed(string key)
     {
-        GameAnalytics.NewDesignEvent("KeyPressed:Pace:Correct:" + key, GameManager.Instance.currentTimeStage);
+        writer.WriteLine("Pace,Correct,"+key+","+GameManager.Instance.currentTimeStage);
     }
 
     /// <summary>
@@ -107,7 +128,7 @@ public class AnalyticsManager : MonoBehaviour {
     /// <param name="key">Key that was pressed by the user</param>
     public void IncorrectBreatheKeyPressed(string key)
     {
-        GameAnalytics.NewDesignEvent("KeyPressed:Breathe:Incorrect:" + key, GameManager.Instance.currentTimeStage);
+        writer.WriteLine("Breathe,Incorrect,"+key+","+GameManager.Instance.currentTimeStage);
     }
 
     /// <summary>
@@ -116,7 +137,7 @@ public class AnalyticsManager : MonoBehaviour {
     /// <param name="key"></param>
     public void IncorrectPaceKeyPressed(string key)
     {
-        GameAnalytics.NewDesignEvent("KeyPressed:Pace:Incorrect:" + key, GameManager.Instance.currentTimeStage);
+        writer.WriteLine("Pace,Incorrrect,"+key+","+GameManager.Instance.currentTimeStage);
     }
 
     /// <summary>
@@ -124,16 +145,9 @@ public class AnalyticsManager : MonoBehaviour {
     /// </summary>
     public void LogMinigameValues()
     {
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:DifficultyMultiplierIncrement", GameManager.Instance.difficultyMultIncrement);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:TimeStageDuration", GameManager.Instance.timeStageDuration);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:CorrectSpeed", GameManager.Instance.correctSpeed);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:CorrectOxygen", GameManager.Instance.correctOxygen);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:CorrectConsciousness", GameManager.Instance.correctCon);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:IncorrectSpeed", GameManager.Instance.incorrectSpeed);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:IncorrectOxygen", GameManager.Instance.incorrectOxygen);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:SpeedGain", GameManager.Instance.speedGain);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:OxygenLoss", GameManager.Instance.oxygenLoss);
-        GameAnalytics.NewDesignEvent("TestValues:Minigame:ConsciousnessLoss", GameManager.Instance.conLoss);
+        writer.WriteLine("");
+        writer.WriteLine("DifficultyMulitplierIncrement,TimeStageDuration,CorrectSpeed,CorrectOxygen,CorrectConsciousness,IncorrectSpeed,IncorrectOxygen,SpeedGain,OxygenLoss,ConsciousnessLoss");
+        writer.WriteLine(GameManager.Instance.difficultyMultIncrement+","+GameManager.Instance.timeStageDuration+","+GameManager.Instance.correctSpeed+","+GameManager.Instance.correctOxygen+","+GameManager.Instance.correctCon+","+GameManager.Instance.incorrectSpeed+","+GameManager.Instance.incorrectOxygen+","+GameManager.Instance.speedGain+","+GameManager.Instance.oxygenLoss+","+GameManager.Instance.conLoss);
     }
     #endregion
 }
