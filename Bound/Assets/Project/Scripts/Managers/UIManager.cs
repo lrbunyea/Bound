@@ -10,15 +10,12 @@ public class UIManager : MonoBehaviour {
     [SerializeField] GameObject minigameCanvas;
     [SerializeField] GameObject mainMenuCanvas;
     //minigame values
-    [SerializeField] InputField dmiField;
+    [SerializeField] InputField ssField;
+    [SerializeField] InputField smiField;
     [SerializeField] InputField tsdField;
-    [SerializeField] InputField csField;
-    [SerializeField] InputField coField;
-    [SerializeField] InputField ccField;
-    [SerializeField] InputField icsField;
-    [SerializeField] InputField icoField;
-    [SerializeField] InputField sgField;
-    [SerializeField] InputField olField;
+    [SerializeField] InputField sstField;
+    [SerializeField] InputField stdField;
+    [SerializeField] InputField clField;
     //player id
     [SerializeField] InputField playerID;
     #endregion
@@ -67,15 +64,12 @@ public class UIManager : MonoBehaviour {
     /// </summary>
     private void PopulateMinigameValues()
     {
-        dmiField.text = GameManager.Instance.difficultyMultIncrement.ToString();
+        ssField.text = GameManager.Instance.startingSpeed.ToString();
+        smiField.text = GameManager.Instance.speedMultIncrement.ToString();
         tsdField.text = GameManager.Instance.timeStageDuration.ToString();
-        csField.text = GameManager.Instance.correctSpeed.ToString();
-        coField.text = GameManager.Instance.correctOxygen.ToString();
-        ccField.text = GameManager.Instance.correctCon.ToString();
-        icsField.text = GameManager.Instance.incorrectSpeed.ToString();
-        icoField.text = GameManager.Instance.incorrectOxygen.ToString();
-        sgField.text = GameManager.Instance.speedGain.ToString();
-        olField.text = GameManager.Instance.oxygenLoss.ToString();
+        sstField.text = GameManager.Instance.startingSpawnTimer.ToString();
+        stdField.text = GameManager.Instance.spawnTimerDec.ToString();
+        clField.text = GameManager.Instance.conLoss.ToString();
     }
 
     /// <summary>
@@ -83,15 +77,12 @@ public class UIManager : MonoBehaviour {
     /// </summary>
     public void SaveMinigameValues()
     {
-        GameManager.Instance.difficultyMultIncrement = (float)Convert.ToDouble(dmiField.text);
+        GameManager.Instance.speedMultIncrement = (float)Convert.ToDouble(ssField.text);
+        GameManager.Instance.speedMultIncrement = (float)Convert.ToDouble(smiField.text);
         GameManager.Instance.timeStageDuration = (float)Convert.ToDouble(tsdField.text);
-        GameManager.Instance.correctSpeed = (float)Convert.ToDouble(csField.text);
-        GameManager.Instance.correctOxygen = (float)Convert.ToDouble(coField.text);
-        GameManager.Instance.correctCon = (float)Convert.ToDouble(ccField.text);
-        GameManager.Instance.incorrectSpeed = (float)Convert.ToDouble(icsField.text);
-        GameManager.Instance.incorrectOxygen = (float)Convert.ToDouble(icoField.text);
-        GameManager.Instance.speedGain = (float)Convert.ToDouble(sgField.text);
-        GameManager.Instance.oxygenLoss = (float)Convert.ToDouble(olField.text);
+        GameManager.Instance.startingSpawnTimer = (float)Convert.ToDouble(sstField.text);
+        GameManager.Instance.spawnTimerDec = (float)Convert.ToDouble(stdField.text);
+        GameManager.Instance.conLoss = (float)Convert.ToDouble(clField.text);
     }
 
     /// <summary>

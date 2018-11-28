@@ -146,8 +146,8 @@ public class AnalyticsManager : MonoBehaviour {
     public void LogMinigameValues()
     {
         writer.WriteLine("");
-        writer.WriteLine("DifficultyMulitplierIncrement,TimeStageDuration,CorrectSpeed,CorrectOxygen,CorrectConsciousness,IncorrectSpeed,IncorrectOxygen,SpeedGain,OxygenLoss,ConsciousnessLoss");
-        writer.WriteLine(GameManager.Instance.difficultyMultIncrement+","+GameManager.Instance.timeStageDuration+","+GameManager.Instance.correctSpeed+","+GameManager.Instance.correctOxygen+","+GameManager.Instance.correctCon+","+GameManager.Instance.incorrectSpeed+","+GameManager.Instance.incorrectOxygen+","+GameManager.Instance.speedGain+","+GameManager.Instance.oxygenLoss+","+GameManager.Instance.conLoss);
+        writer.WriteLine("SpeedMulitplierIncrement,StartingSpeed,StartingSpawnTimer,SpawnTimerDecrement,TimeStageDuration,ConsciousnessLoss");
+        writer.WriteLine(GameManager.Instance.speedMultIncrement+","+GameManager.Instance.startingSpeed+","+GameManager.Instance.startingSpawnTimer+","+GameManager.Instance.spawnTimerDec+","+GameManager.Instance.timeStageDuration+","+GameManager.Instance.conLoss);
     }
     #endregion
 }
