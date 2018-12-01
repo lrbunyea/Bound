@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +11,8 @@ public class DialogueManager : MonoBehaviour {
 
     //Introduction narration
     private string[] introductionDialogue;
+    private string[] preMinigameDialogue;
+    private string[] postMinigameDialogue;
     #endregion
 
     #region Unity API Functions
@@ -28,7 +30,15 @@ public class DialogueManager : MonoBehaviour {
 
     private void Start()
     {
-        introductionDialogue = new string[] { "Every day after lunch, I used to fly down this sidewalk and up those stairs to the track.",
+        introductionDialogue = new string[]
+        {
+            "Are you in any pain?",
+            "No.",
+            "Can you tell me what happened?",
+            "I went on a run."
+        };
+
+        preMinigameDialogue = new string[] { "Every day after lunch, I used to fly down this sidewalk and up those stairs to the track.",
         "My friends were never able to catch up with me so they would just lean back on the chain link fence and watch. Flashing me a thumbs up when I blew by.",
         "I want that again.",
         "“Do not, under any circumstances, wear for more than eight hours a day.”",
@@ -37,15 +47,19 @@ public class DialogueManager : MonoBehaviour {
         "Then, later, when I googled it, the internet told me the same thing.",
         "So, I said, “Fuck it” and now I’m here where I went to middle school like… eight years ago.",
         "Wearing this binder that I’m not supposed to and running shoes that I haven’t touched since I came out."};
+
+        postMinigameDialogue = new string[]
+        {
+            "But I was wearing a binder and it was hard to breathe. So, I just… Passed out.",
+            "Why didn’t you stop?",
+            "I don’t know. I think I’m just tired of feeling helpless.",
+            "Helpless? I’m afraid that I don’t understand."
+        };
     }
     #endregion
 
     #region Accessible Functions
-    /// <summary>
-    /// Function to be called by the dialuge triggers to populate UI text.
-    /// </summary>
-    /// <returns>The next dialogue line for the player to read.</returns>
-    public string GetNextLine()
+    public string GetNextIntroLine()
     {
         if (introductionDialogue.Length != 0)
         {
@@ -53,11 +67,47 @@ public class DialogueManager : MonoBehaviour {
             string[] newDialogueQueue = introductionDialogue.Skip(1).ToArray();
             introductionDialogue = newDialogueQueue;
             return nextLine;
+        }
+        else
+        {
+            return "";
+        }
+
+    }
+
+    /// <summary>
+    /// Function to be called by the dialuge triggers to populate UI text.
+    /// </summary>
+    /// <returns>The next dialogue line for the player to read.</returns>
+    public string GetNextPreminigameLine()
+    {
+        if (preMinigameDialogue.Length != 0)
+        {
+            string nextLine = preMinigameDialogue[0];
+            string[] newDialogueQueue = preMinigameDialogue.Skip(1).ToArray();
+            preMinigameDialogue = newDialogueQueue;
+            return nextLine;
         } else
         {
             return "";
         }
         
+    }
+
+    public string GetNextPostLine()
+    {
+        if (postMinigameDialogue.Length != 0)
+        {
+            string nextLine = postMinigameDialogue[0];
+            string[] newDialogueQueue = postMinigameDialogue.Skip(1).ToArray();
+            postMinigameDialogue = newDialogueQueue;
+            return nextLine;
+        }
+        else
+        {
+            return "";
+        }
+
     }
     #endregion
 }

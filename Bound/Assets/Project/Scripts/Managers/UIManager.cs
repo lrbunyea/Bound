@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +7,12 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour {
 
     #region Variables
+    public static UIManager Instance;
+
     [SerializeField] GameObject minigameCanvas;
     [SerializeField] GameObject mainMenuCanvas;
+    [SerializeField] GameObject blackScreen;
+    [SerializeField] GameObject blackScreenPanel;
     //minigame values
     [SerializeField] InputField ssField;
     [SerializeField] InputField smiField;
@@ -21,6 +25,19 @@ public class UIManager : MonoBehaviour {
     #endregion
 
     #region Unity API Functions
+    void Awake()
+    {
+        //Singleton pattern
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     void Start()
     {
         //Initialize default minigame state
@@ -29,6 +46,7 @@ public class UIManager : MonoBehaviour {
 
         //Register listeners for input events
         GameManager.Instance.MinigameStart.AddListener(ShowMinigame);
+        GameManager.Instance.StartBlackScreen.AddListener(ShowBlackCanvas);
     }
     #endregion
 
@@ -39,6 +57,23 @@ public class UIManager : MonoBehaviour {
     public void ShowMinigame()
     {
         minigameCanvas.SetActive(true);
+    }
+
+    /// <summary>
+    /// Function that fades the black screen into gameplay. Called after intro dialogue and sounds are played.
+    /// </summary>
+    public void FadeOutPanel()
+    {
+        blackScreenPanel.GetComponent<Image>().CrossFadeColor(new Color(0, 0, 0, 0), 2.0f, false, true);
+        HideBlackCanvas();
+    }
+
+    /// <summary>
+    /// Function that fades into the black screen from gameplay. Called after the player fails the minigame.
+    /// </summary>
+    public void FadeInPanel()
+    {
+        blackScreenPanel.GetComponent<Image>().CrossFadeColor(new Color(0, 0, 0, 1), 3.0f, false, true);
     }
 
     /// <summary>
@@ -55,7 +90,22 @@ public class UIManager : MonoBehaviour {
     public void HideMainMenu()
     {
         mainMenuCanvas.SetActive(false);
+        GameManager.Instance.StartBlackScreen.Invoke();
+    }
+
+    /// <summary>
+    /// Hides the black screen canvas after the fade has played.
+    /// </summary>
+    public void HideBlackCanvas()
+    {
+        blackScreen.SetActive(false);
         GameManager.Instance.SetGameStateToPreMiniGame();
+    }
+
+    public void ShowBlackCanvas()
+    {
+        blackScreen.SetActive(true);
+        GameManager.Instance.SetGameStateToBlackScreen();
         AnalyticsManager.Instance.hasStarted = true;
     }
 

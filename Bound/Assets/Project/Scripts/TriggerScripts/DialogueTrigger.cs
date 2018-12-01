@@ -12,7 +12,7 @@ public class DialogueTrigger : MonoBehaviour {
     #region Unity API Functions
     private void OnTriggerEnter(Collider other)
     {
-        dialogueText.text = DialogueManager.Instance.GetNextLine();
+        //dialogueText.text = DialogueManager.Instance.GetNextLine();
         Destroy(this.gameObject);
     }
     #endregion

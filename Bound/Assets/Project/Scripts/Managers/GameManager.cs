@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour {
         MainMenu,
         PauseMenu,
         PreMinigame,
-        Minigame
+        Minigame,
+        Blackscreen
     }
 
     //Potential player input keys
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour {
     public UnityEvent MinigameStart;
     public UnityEvent CorrectKeyPress;
     public UnityEvent IncorrectKeyPress;
+    public UnityEvent StartBlackScreen;
+    public UnityEvent EndBlackScreen;
 
     //editable variables
     public float startingSpeed;
@@ -70,6 +73,8 @@ public class GameManager : MonoBehaviour {
         MinigameStart = new UnityEvent();
         CorrectKeyPress = new UnityEvent();
         IncorrectKeyPress = new UnityEvent();
+        StartBlackScreen = new UnityEvent();
+        EndBlackScreen = new UnityEvent();
     }
 
     void Start()
@@ -182,6 +187,12 @@ public class GameManager : MonoBehaviour {
         currentState = GameState.Minigame;
         fpsCont.GetComponent<FirstPersonController>().enabled = false;
 
+    }
+
+    public void SetGameStateToBlackScreen()
+    {
+        currentState = GameState.Blackscreen;
+        fpsCont.GetComponent<FirstPersonController>().enabled = false;
     }
     #endregion
 }
