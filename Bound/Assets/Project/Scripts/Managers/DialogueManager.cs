@@ -10,9 +10,9 @@ public class DialogueManager : MonoBehaviour {
     public static DialogueManager Instance;
 
     //Introduction narration
-    private string[] introductionDialogue;
-    private string[] preMinigameDialogue;
-    private string[] postMinigameDialogue;
+    private string[] introductionDialogue;  //Dialogue to be played during introductory black screen
+    private string[] preMinigameDialogue;   //Dialogue to be played during preminigame sequence
+    private string[] postMinigameDialogue;  //Dialogue to be played after players fail the minigame
     #endregion
 
     #region Unity API Functions
@@ -59,6 +59,10 @@ public class DialogueManager : MonoBehaviour {
     #endregion
 
     #region Accessible Functions
+    /// <summary>
+    /// Cycles through the intro dialogue, returning the next line in the sequence, then deleting it from the array.
+    /// </summary>
+    /// <returns>The next dialogue line for the player to read.</returns>
     public string GetNextIntroLine()
     {
         if (introductionDialogue.Length != 0)
@@ -76,7 +80,7 @@ public class DialogueManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Function to be called by the dialuge triggers to populate UI text.
+    /// Cycles through the preminigame dialogue, returning the next line in the sequence, then deleting it from the array.
     /// </summary>
     /// <returns>The next dialogue line for the player to read.</returns>
     public string GetNextPreminigameLine()
@@ -94,6 +98,10 @@ public class DialogueManager : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// Cycles through the post minigame dialogue, returning the next line in the sequence, then deleting it from the array.
+    /// </summary>
+    /// <returns>The next dialogue line for the player to read.</returns>
     public string GetNextPostLine()
     {
         if (postMinigameDialogue.Length != 0)

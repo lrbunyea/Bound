@@ -8,10 +8,9 @@ public class UIManager : MonoBehaviour {
 
     #region Variables
     public static UIManager Instance;
-
+    //UI object references
     [SerializeField] GameObject minigameCanvas;
     [SerializeField] GameObject mainMenuCanvas;
-    [SerializeField] GameObject blackScreen;
     [SerializeField] GameObject blackScreenPanel;
     //minigame values
     [SerializeField] InputField ssField;
@@ -46,7 +45,8 @@ public class UIManager : MonoBehaviour {
 
         //Register listeners for input events
         GameManager.Instance.MinigameStart.AddListener(ShowMinigame);
-        GameManager.Instance.StartBlackScreen.AddListener(ShowBlackCanvas);
+        GameManager.Instance.EndBlackScreen.AddListener(FadeInPanel);
+        GameManager.Instance.EndBlackScreen.AddListener(HideMinigame);
     }
     #endregion
 
@@ -65,7 +65,7 @@ public class UIManager : MonoBehaviour {
     public void FadeOutPanel()
     {
         blackScreenPanel.GetComponent<Image>().CrossFadeColor(new Color(0, 0, 0, 0), 2.0f, false, true);
-        HideBlackCanvas();
+        GameManager.Instance.SetGameStateToPreMiniGame();
     }
 
     /// <summary>
@@ -90,23 +90,9 @@ public class UIManager : MonoBehaviour {
     public void HideMainMenu()
     {
         mainMenuCanvas.SetActive(false);
-        GameManager.Instance.StartBlackScreen.Invoke();
-    }
-
-    /// <summary>
-    /// Hides the black screen canvas after the fade has played.
-    /// </summary>
-    public void HideBlackCanvas()
-    {
-        blackScreen.SetActive(false);
-        GameManager.Instance.SetGameStateToPreMiniGame();
-    }
-
-    public void ShowBlackCanvas()
-    {
-        blackScreen.SetActive(true);
-        GameManager.Instance.SetGameStateToBlackScreen();
         AnalyticsManager.Instance.hasStarted = true;
+        GameManager.Instance.StartBlackScreen.Invoke();
+        GameManager.Instance.SetGameStateToBlackScreen();
     }
 
     /// <summary>

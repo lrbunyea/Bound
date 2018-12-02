@@ -96,10 +96,10 @@ public class GameManager : MonoBehaviour {
             //Check lose condition
             if (currentConsciousness <= 0)
             {
+                EndBlackScreen.Invoke();
                 AnalyticsManager.Instance.LogMinigameValues();
                 AnalyticsManager.Instance.LogTimeSpentMinigame();
                 AnalyticsManager.Instance.LogTotalTimeSpent();
-                Application.Quit();
             }
             DifficultyTimer();
             SpawnKey();
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour {
 
     /// <summary>
     /// Sets default minigame multipliers so that the main menu can grab them for potential tweaking
-    /// Will eventually pull from a save file
+    /// Will eventually pull from a save file (Maybe)
     /// </summary>
     private void SetDefaultMinigameValues()
     {
@@ -127,6 +127,9 @@ public class GameManager : MonoBehaviour {
         currentTimeStage = 0;
     }
 
+    /// <summary>
+    /// Instantiates a random key from the allKeys array for the player to hit at the correct time.
+    /// </summary>
     private void SpawnKey()
     {
         spawnTimeLeft -= Time.deltaTime;
@@ -138,6 +141,9 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// A function that is invoked when the player presses an incorrect key.
+    /// </summary>
     private void Fumble()
     {
         currentConsciousness -= conLoss;
@@ -180,7 +186,7 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Signals to the game manager, that the player has entered the minigame.
+    /// Signals to the game manager that the player has entered the minigame.
     /// </summary>
     public void SetGameStateToMinigame()
     {
@@ -189,6 +195,9 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Signals to the game manager that a black screen is currently being displayed.
+    /// </summary>
     public void SetGameStateToBlackScreen()
     {
         currentState = GameState.Blackscreen;
