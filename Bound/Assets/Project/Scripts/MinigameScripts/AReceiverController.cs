@@ -22,7 +22,7 @@ public class AReceiverController : MonoBehaviour {
             {
                 if (isValid)
                 {
-                    GameManager.Instance.CorrectKeyPress.Invoke();
+                    GameManager.Instance.CorrectAKeyPress.Invoke();
                     AnalyticsManager.Instance.CorrectBreatheKeyPressed("A");
                 } else
                 {
@@ -35,13 +35,13 @@ public class AReceiverController : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<PromptController>().isColliding = true;
+        collision.gameObject.GetComponent<APromptController>().isColliding = true;
         isValid = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<PromptController>().isColliding = false;
+        collision.gameObject.GetComponent<APromptController>().isColliding = false;
         isValid = false;
     }
     #endregion

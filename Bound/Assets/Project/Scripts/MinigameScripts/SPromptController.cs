@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PromptController : MonoBehaviour {
+public class SPromptController : MonoBehaviour {
 
     #region Variables
     public bool isColliding;
@@ -12,7 +12,7 @@ public class PromptController : MonoBehaviour {
     void Start()
     {
         isColliding = false;
-        GameManager.Instance.CorrectKeyPress.AddListener(DeletePrompt);
+        GameManager.Instance.CorrectSKeyPress.AddListener(DeletePrompt);
     }
 
     void Update()

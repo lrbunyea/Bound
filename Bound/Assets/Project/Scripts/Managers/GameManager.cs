@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour {
     //Minigame events
     public UnityEvent MinigameStart;
     public UnityEvent CorrectKeyPress;
+    public UnityEvent CorrectWKeyPress;
+    public UnityEvent CorrectAKeyPress;
+    public UnityEvent CorrectSKeyPress;
+    public UnityEvent CorrectDKeyPress;
     public UnityEvent IncorrectKeyPress;
     public UnityEvent StartBlackScreen;
     public UnityEvent EndBlackScreen;
@@ -71,7 +75,10 @@ public class GameManager : MonoBehaviour {
 
         //Initialize all events - Must be in the awake function
         MinigameStart = new UnityEvent();
-        CorrectKeyPress = new UnityEvent();
+        CorrectWKeyPress = new UnityEvent();
+        CorrectAKeyPress = new UnityEvent();
+        CorrectSKeyPress = new UnityEvent();
+        CorrectDKeyPress = new UnityEvent();
         IncorrectKeyPress = new UnityEvent();
         StartBlackScreen = new UnityEvent();
         EndBlackScreen = new UnityEvent();
@@ -115,13 +122,13 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private void SetDefaultMinigameValues()
     {
-        startingSpeed = 5;
+        startingSpeed = 2;
         currentSpeed = startingSpeed;
         currentSpeedMult = .5f;
-        speedMultIncrement = 0.5f;
-        startingSpawnTimer = 3f;
+        speedMultIncrement = 0.3f;
+        startingSpawnTimer = 1f;
         currentSpawnTimer = startingSpawnTimer;
-        spawnTimerDec = .5f;
+        spawnTimerDec = .1f;
         conLoss = 20;
         timeStageDuration = 20;
         currentTimeStage = 0;
