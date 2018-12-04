@@ -115,6 +115,10 @@ public class GameManager : MonoBehaviour {
     #endregion
 
     #region Minigame Funtions
+    public void DisablePlayerMovement()
+    {
+        fpsCont.GetComponent<FirstPersonController>().enabled = false;
+    }
 
     /// <summary>
     /// Sets default minigame multipliers so that the main menu can grab them for potential tweaking

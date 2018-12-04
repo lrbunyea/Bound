@@ -6495,7 +6495,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 396299114}
   m_LocalRotation: {x: -0, y: 0.25167266, z: -0, w: 0.9678124}
-  m_LocalPosition: {x: 88.7, y: 1.28, z: 24.6}
+  m_LocalPosition: {x: 84.76, y: 1.28, z: 25.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2045556714}
@@ -6514,6 +6514,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55c0f94aae3a6b4a94f12622de3ba34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  walkingUp: 0
+  speed: 5
 --- !u!143 &396299121
 CharacterController:
   m_ObjectHideFlags: 0
@@ -13276,7 +13278,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 867167187}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1

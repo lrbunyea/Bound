@@ -7,7 +7,8 @@ public class MiniGameTrigger : MonoBehaviour {
     #region Unity API Functions
     private void OnTriggerEnter(Collider other)
     {
-        GameManager.Instance.MinigameStart.Invoke();
+        GameManager.Instance.DisablePlayerMovement();
+        other.gameObject.GetComponent<RunAnimationController>().walkingUp = true;
     }
     #endregion
 }
