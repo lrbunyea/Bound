@@ -11,6 +11,7 @@ public class DialogueTextController : MonoBehaviour {
     private bool isIntro;
     private bool isPreMinigame;
     private bool isPostMinigame;
+    private bool waitingForCar;
     private float timeLeft; //The time left to display the current line on the screen
     private bool sameWord;  //True if we are still waiting for one line to be displayed for the proper amount of time
     string next;            //The line being displayed
@@ -24,80 +25,102 @@ public class DialogueTextController : MonoBehaviour {
         isPreMinigame = false;
         isPostMinigame = false;
         sameWord = false;
+        waitingForCar = false;
         //Register functions to events
         GameManager.Instance.StartBlackScreen.AddListener(PlayIntro);
         GameManager.Instance.EndBlackScreen.AddListener(PlayPostMinigame);
     }
 
     void Update () {
-        //Checking state
-        if (isIntro)
+
+        if (waitingForCar)
         {
-            //Check if we're waiting for the same word
-            if (sameWord)
+            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0)
             {
-                WriteText(next);
-            } else
+                SoundManager.Instance.PlayMusic();
+                UIManager.Instance.FadeOutPanel();
+                waitingForCar = false;
+            }
+        } else
+        {
+            //Checking state
+            if (isIntro)
             {
-                next = DialogueManager.Instance.GetNextIntroLine();
-                GetLineTimer(next);
-                //Check to see if we are at the end of the section
-                if (next == "")
-                {
-                    isIntro = false;
-                    UIManager.Instance.FadeOutPanel();
-                    isPreMinigame = true;
-                } else
+                //Check if we're waiting for the same word
+                if (sameWord)
                 {
                     WriteText(next);
-                    sameWord = true;
-                }
-            }
-        } else if (isPreMinigame)
-        {
-            //Check if we're waiting for the same word
-            if (sameWord)
-            {
-                WriteText(next);
-            }
-            else
-            {
-                next = DialogueManager.Instance.GetNextPreminigameLine();
-                GetLineTimer(next);
-                //Check to see if we are at the end of the section
-                if (next == "")
-                {
-                    isPreMinigame = false;
-                    dialogueText.text = "";
                 }
                 else
                 {
-                    WriteText(next);
-                    sameWord = true;
+                    next = DialogueManager.Instance.GetNextIntroLine();
+                    GetLineTimer(next);
+                    //Check to see if we are at the end of the section
+                    if (next == "")
+                    {
+                        SoundManager.Instance.FadeOutHospital();
+                        SoundManager.Instance.PlayCar();
+                        waitingForCar = true;
+                        timeLeft = SoundManager.Instance.carClipLength;
+                        isIntro = false;
+                        isPreMinigame = true;
+                        dialogueText.text = "";
+                    }
+                    else
+                    {
+                        WriteText(next);
+                        sameWord = true;
+                    }
                 }
             }
-        } else if (isPostMinigame)
-        {
-            //Check if we're waiting for the same word
-            if (sameWord)
+            else if (isPreMinigame)
             {
-                WriteText(next);
-            }
-            else
-            {
-                next = DialogueManager.Instance.GetNextPostLine();
-                GetLineTimer(next);
-                //Check to see if we are at the end of the section
-                if (next == "")
+                //Check if we're waiting for the same word
+                if (sameWord)
                 {
-                    //end the game
-                    Application.Quit();
-                    //This should not be done here, will move later
+                    WriteText(next);
                 }
                 else
                 {
+                    next = DialogueManager.Instance.GetNextPreminigameLine();
+                    GetLineTimer(next);
+                    //Check to see if we are at the end of the section
+                    if (next == "")
+                    {
+                        isPreMinigame = false;
+                        dialogueText.text = "";
+                    }
+                    else
+                    {
+                        WriteText(next);
+                        sameWord = true;
+                    }
+                }
+            }
+            else if (isPostMinigame)
+            {
+                //Check if we're waiting for the same word
+                if (sameWord)
+                {
                     WriteText(next);
-                    sameWord = true;
+                }
+                else
+                {
+                    next = DialogueManager.Instance.GetNextPostLine();
+                    GetLineTimer(next);
+                    //Check to see if we are at the end of the section
+                    if (next == "")
+                    {
+                        //end the game
+                        Application.Quit();
+                        //This should not be done here, will move later
+                    }
+                    else
+                    {
+                        WriteText(next);
+                        sameWord = true;
+                    }
                 }
             }
         }

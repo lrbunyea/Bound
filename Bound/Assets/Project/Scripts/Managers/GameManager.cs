@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour {
     public float currentSpawnTimer;
     public int currentTimeStage;
     public GameState currentState;
+    private bool hasLogged;
     //private variables
     [SerializeField] float tsdTimeLeft;
     [SerializeField] float spawnTimeLeft;
@@ -89,6 +90,7 @@ public class GameManager : MonoBehaviour {
         //set current game state
         SetGameStateToMainMenu();
         currentConsciousness = 100;
+        hasLogged = false;
         tsdTimeLeft = timeStageDuration;
         spawnTimeLeft = currentSpawnTimer;
 
@@ -101,12 +103,13 @@ public class GameManager : MonoBehaviour {
 		if (currentState == GameState.Minigame)
         {
             //Check lose condition
-            if (currentConsciousness <= 0)
+            if (currentConsciousness <= 0 && !hasLogged)
             {
                 EndBlackScreen.Invoke();
                 AnalyticsManager.Instance.LogMinigameValues();
                 AnalyticsManager.Instance.LogTimeSpentMinigame();
                 AnalyticsManager.Instance.LogTotalTimeSpent();
+                hasLogged = true;
             }
             DifficultyTimer();
             SpawnKey();
