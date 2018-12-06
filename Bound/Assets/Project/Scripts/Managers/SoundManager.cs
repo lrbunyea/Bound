@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,7 +49,8 @@ public class SoundManager : MonoBehaviour {
         breathingFade = false;
         sharpBreathPlaying = false;
 
-        GameManager.Instance.IncorrectKeyPress.AddListener(TakeSharpBreath);
+        //register functions to events
+        GameManager.Instance.ConPenalty.AddListener(TakeSharpBreath);
         GameManager.Instance.MinigameStart.AddListener(PlayRunning);
         GameManager.Instance.MinigameStart.AddListener(PlayBreathing);
         GameManager.Instance.StartBlackScreen.AddListener(PlayHospital);
@@ -61,6 +62,7 @@ public class SoundManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //Hospital crossfade
         if (hospitalFade)
         {
             hospital.volume -= Time.deltaTime;
@@ -70,6 +72,7 @@ public class SoundManager : MonoBehaviour {
                 hospitalFade = false;
             }
         }
+        //Music crossfade
         if (musicFade)
         {
             mainMusic.volume -= Time.deltaTime;
@@ -79,6 +82,7 @@ public class SoundManager : MonoBehaviour {
                 musicFade = false;
             }
         }
+        //Running crossfade
         if (runningFade)
         {
             running.volume -= Time.deltaTime;
@@ -88,6 +92,7 @@ public class SoundManager : MonoBehaviour {
                 runningFade = false;
             }
         }
+        //Breathing crossfade
         if (breathingFade)
         {
             regularBreathing.volume -= Time.deltaTime;
@@ -97,6 +102,7 @@ public class SoundManager : MonoBehaviour {
                 breathingFade = false;
             }
         }
+        //Sharp breathing timer
         if(sharpBreathPlaying)
         {
             timeLeft -= Time.deltaTime;
@@ -113,6 +119,9 @@ public class SoundManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Function that is called when the player presses an incorrect key.
+    /// </summary>
     private void TakeSharpBreath()
     {
         regularBreathing.Stop();
@@ -121,27 +130,42 @@ public class SoundManager : MonoBehaviour {
     }
 
     #region Play Functions
+    /// <summary>
+    /// Plays the hospital sound audio source.
+    /// </summary>
     public void PlayHospital()
     {
         hospital.volume = 1;
         hospital.Play();
     }
 
+    /// <summary>
+    /// Plays the car sound audio source.
+    /// </summary>
     public void PlayCar()
     {
         car.Play();
     }
 
+    /// <summary>
+    /// Plays the music audio source.
+    /// </summary>
     public void PlayMusic()
     {
         mainMusic.Play();
     }
 
+    /// <summary>
+    /// Plays the running sound udio source.
+    /// </summary>
     public void PlayRunning()
     {
         running.Play();
     }
 
+    /// <summary>
+    /// Plays the breathing sound audio source.
+    /// </summary>
     public void PlayBreathing()
     {
         regularBreathing.Play();
@@ -149,6 +173,7 @@ public class SoundManager : MonoBehaviour {
     #endregion
 
     #region Fade Out Functions
+    //All these functions switch the flag on.
     public void FadeOutHospital()
     {
         hospitalFade = true;

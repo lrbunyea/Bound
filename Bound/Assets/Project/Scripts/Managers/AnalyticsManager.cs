@@ -108,36 +108,27 @@ public class AnalyticsManager : MonoBehaviour {
     /// Called by the Input manager when the correct breathe key is pressed.
     /// </summary>
     /// <param name="key">Key that was pressed by the user</param>
-    public void CorrectBreatheKeyPressed(string key)
+    public void CorrectKeyPressed(string key)
     {
-        writer.WriteLine("Breathe,Correct,"+key+","+GameManager.Instance.currentTimeStage);
-    }
-
-    /// <summary>
-    /// Called by the Input manager when the correct pace key is pressed.
-    /// </summary>
-    /// <param name="key">Key that was pressed by the user</param>
-    public void CorrectPaceKeyPressed(string key)
-    {
-        writer.WriteLine("Pace,Correct,"+key+","+GameManager.Instance.currentTimeStage);
+        writer.WriteLine("Correct,"+key+","+GameManager.Instance.currentTimeStage);
     }
 
     /// <summary>
     /// Called by the Input manager when an incorrect breathe key is pressed.
     /// </summary>
     /// <param name="key">Key that was pressed by the user</param>
-    public void IncorrectBreatheKeyPressed(string key)
+    public void IncorrectKeyPressed(string key)
     {
-        writer.WriteLine("Breathe,Incorrect,"+key+","+GameManager.Instance.currentTimeStage);
+        writer.WriteLine("Incorrect,"+key+","+GameManager.Instance.currentTimeStage);
     }
 
     /// <summary>
-    /// Calced by the input manager when an incorrect pace key is pressed.
+    /// Called by the minigame killzone. It reports the prompt that the player failed to hit to the .CSV file.
     /// </summary>
-    /// <param name="key"></param>
-    public void IncorrectPaceKeyPressed(string key)
+    /// <param name="key">The prompt the player failed to hit.</param>
+    public void KeyPassed(string key)
     {
-        writer.WriteLine("Pace,Incorrrect,"+key+","+GameManager.Instance.currentTimeStage);
+        writer.WriteLine("Passed," + key + "," + GameManager.Instance.currentTimeStage);
     }
 
     /// <summary>

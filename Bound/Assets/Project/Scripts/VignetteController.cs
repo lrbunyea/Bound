@@ -12,7 +12,7 @@ public class VignetteController : MonoBehaviour {
     #region Unity API Functions
     void Start () {
         ppp = GetComponent<PostProcessingBehaviour>().profile;
-        GameManager.Instance.IncorrectKeyPress.AddListener(PassOut);
+        GameManager.Instance.ConPenalty.AddListener(PassOut);
 	}
     #endregion
 

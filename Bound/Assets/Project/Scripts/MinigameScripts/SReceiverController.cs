@@ -23,11 +23,11 @@ public class SReceiverController : MonoBehaviour {
                 if (isValid)
                 {
                     GameManager.Instance.CorrectSKeyPress.Invoke();
-                    AnalyticsManager.Instance.CorrectBreatheKeyPressed("S");
+                    AnalyticsManager.Instance.CorrectKeyPressed("S");
                 } else
                 {
-                    GameManager.Instance.IncorrectKeyPress.Invoke();
-                    AnalyticsManager.Instance.IncorrectBreatheKeyPressed("S");
+                    GameManager.Instance.ConPenalty.Invoke();
+                    AnalyticsManager.Instance.IncorrectKeyPressed("S");
                 }
             }
         }

@@ -11,10 +11,10 @@ public class DialogueTextController : MonoBehaviour {
     private bool isIntro;
     private bool isPreMinigame;
     private bool isPostMinigame;
-    private bool waitingForCar;
-    private float timeLeft; //The time left to display the current line on the screen
-    private bool sameWord;  //True if we are still waiting for one line to be displayed for the proper amount of time
-    string next;            //The line being displayed
+    private bool waitingForCar; //True if the audio for xiting the car is currently playing
+    private float timeLeft;     //The time left to display the current line on the screen
+    private bool sameWord;      //True if we are still waiting for one line to be displayed for the proper amount of time
+    string next;                //The line being displayed
     #endregion
 
     #region Unity API Functions

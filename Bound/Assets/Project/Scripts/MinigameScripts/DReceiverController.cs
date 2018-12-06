@@ -23,11 +23,11 @@ public class DReceiverController : MonoBehaviour {
                 if (isValid)
                 {
                     GameManager.Instance.CorrectDKeyPress.Invoke();
-                    AnalyticsManager.Instance.CorrectBreatheKeyPressed("D");
+                    AnalyticsManager.Instance.CorrectKeyPressed("D");
                 } else
                 {
-                    GameManager.Instance.IncorrectKeyPress.Invoke();
-                    AnalyticsManager.Instance.IncorrectBreatheKeyPressed("D");
+                    GameManager.Instance.ConPenalty.Invoke();
+                    AnalyticsManager.Instance.IncorrectKeyPressed("D");
                 }
             }
         }

@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
     public UnityEvent CorrectAKeyPress;
     public UnityEvent CorrectSKeyPress;
     public UnityEvent CorrectDKeyPress;
-    public UnityEvent IncorrectKeyPress;
+    public UnityEvent ConPenalty;
     public UnityEvent StartBlackScreen;
     public UnityEvent EndBlackScreen;
 
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour {
         CorrectAKeyPress = new UnityEvent();
         CorrectSKeyPress = new UnityEvent();
         CorrectDKeyPress = new UnityEvent();
-        IncorrectKeyPress = new UnityEvent();
+        ConPenalty = new UnityEvent();
         StartBlackScreen = new UnityEvent();
         EndBlackScreen = new UnityEvent();
     }
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour {
 
         //Register functions to events
         MinigameStart.AddListener(SetGameStateToMinigame);
-        IncorrectKeyPress.AddListener(Fumble);
+        ConPenalty.AddListener(Fumble);
     }
 
     void Update () {
@@ -118,6 +118,9 @@ public class GameManager : MonoBehaviour {
     #endregion
 
     #region Minigame Funtions
+    /// <summary>
+    /// Called to revoke player control from the player. Useful for minigame and menus.
+    /// </summary>
     public void DisablePlayerMovement()
     {
         fpsCont.GetComponent<FirstPersonController>().enabled = false;

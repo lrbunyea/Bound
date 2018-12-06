@@ -23,11 +23,11 @@ public class WReceiverController : MonoBehaviour {
                 if (isValid)
                 {
                     GameManager.Instance.CorrectWKeyPress.Invoke();
-                    AnalyticsManager.Instance.CorrectBreatheKeyPressed("W");
+                    AnalyticsManager.Instance.CorrectKeyPressed("W");
                 } else
                 {
-                    GameManager.Instance.IncorrectKeyPress.Invoke();
-                    AnalyticsManager.Instance.IncorrectBreatheKeyPressed("W");
+                    GameManager.Instance.ConPenalty.Invoke();
+                    AnalyticsManager.Instance.IncorrectKeyPressed("W");
                 }
             }
         }
