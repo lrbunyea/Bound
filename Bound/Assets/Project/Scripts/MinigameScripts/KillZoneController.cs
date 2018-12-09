@@ -9,7 +9,7 @@ public class KillZoneController : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameManager.Instance.ConPenalty.Invoke();
-        AnalyticsManager.Instance.KeyPassed(collision.gameObject.GetComponent<Text>().text);
+        AnalyticsManager.Instance.KeyPassed(collision.gameObject.tag);
         Destroy(collision.gameObject);
     }
     #endregion
