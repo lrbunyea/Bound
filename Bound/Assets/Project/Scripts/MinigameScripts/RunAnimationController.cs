@@ -10,6 +10,8 @@ public class RunAnimationController : MonoBehaviour {
     public bool isRotating;
     [SerializeField] float speed;
     [SerializeField] Vector3 target;
+    private float animSpeed;
+    private bool isSlow;
     #endregion
 
     #region Unity API Functions
@@ -18,8 +20,11 @@ public class RunAnimationController : MonoBehaviour {
         anim.enabled = false;
         walkingUp = false;
         isRotating = false;
+        isSlow = false;
+        animSpeed = .7f;
         target = new Vector3(150.15f, 9.1f, 182.21f);
         GameManager.Instance.MinigameStart.AddListener(PlayRunAnimation);
+        GameManager.Instance.ConPenalty.AddListener(SlowDown);
 	}
 
     private void Update()
@@ -39,10 +44,19 @@ public class RunAnimationController : MonoBehaviour {
         if (isRotating)
         {
             transform.Rotate(new Vector3(0, -1, 0));
-            if(Mathf.Round(transform.eulerAngles.y) == 268)
+            if(Mathf.Round(transform.eulerAngles.y) == 270)
             {
                 isRotating = false;
                 GameManager.Instance.MinigameStart.Invoke();
+            }
+        }
+
+        if (isSlow)
+        {
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("running"))
+            {
+                anim.speed = animSpeed;
+                isSlow = false;
             }
         }
     }
@@ -55,6 +69,15 @@ public class RunAnimationController : MonoBehaviour {
     private void PlayRunAnimation()
     {
         anim.enabled = true;
+    }
+
+    /// <summary>
+    /// Signals to the controller to slow down the speed of the running animation
+    /// </summary>
+    private void SlowDown()
+    {
+        isSlow = true;
+        animSpeed -= .1f;
     }
     #endregion
 }

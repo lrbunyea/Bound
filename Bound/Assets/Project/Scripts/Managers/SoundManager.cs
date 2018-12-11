@@ -57,6 +57,7 @@ public class SoundManager : MonoBehaviour {
 
         //register functions to events
         GameManager.Instance.ConPenalty.AddListener(TakeSharpBreath);
+        GameManager.Instance.ConPenalty.AddListener(SlowRunning);
         GameManager.Instance.MinigameStart.AddListener(PlayRunning);
         GameManager.Instance.MinigameStart.AddListener(PlayBreathing);
         GameManager.Instance.StartBlackScreen.AddListener(PlayHospital);
@@ -153,6 +154,13 @@ public class SoundManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Pitches down and also slows the running sound effects when a player presses a key incorrectly.
+    /// </summary>
+    private void SlowRunning()
+    {
+        running.pitch -= .1f;
+    }
 
     /// <summary>
     /// Helps the dialogue text controller know how long to display line text.
