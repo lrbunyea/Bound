@@ -7,13 +7,42 @@ public class VignetteController : MonoBehaviour {
 
     #region Variables
     [SerializeField] PostProcessingProfile ppp;
+    private VignetteModel.Settings vignetteSettings;
+    private float newIntensity;
+    private float currentIntensity;
+    private bool isLerping;
+    private int lerpCount;
     #endregion
 
     #region Unity API Functions
     void Start () {
         ppp = GetComponent<PostProcessingBehaviour>().profile;
+        vignetteSettings = ppp.vignette.settings;
+        newIntensity = ppp.vignette.settings.intensity;
+        currentIntensity = ppp.vignette.settings.intensity;
+        lerpCount = 0;
         GameManager.Instance.ConPenalty.AddListener(PassOut);
 	}
+
+    private void Update()
+    {
+        if (GameManager.Instance.currentState == GameManager.GameState.Minigame)
+        {
+            if (isLerping)
+            {
+                currentIntensity = Mathf.Lerp(ppp.vignette.settings.intensity, newIntensity, .1f);
+                vignetteSettings.intensity = currentIntensity;
+                ppp.vignette.settings = vignetteSettings;
+                lerpCount++;
+                //Need to turn off the lerp after it's finished (The way I'm doing this is kind of bad)
+                if (lerpCount == 200)
+                {
+                    isLerping = false;
+                    lerpCount = 0;
+                }
+            }
+        }
+    }
     #endregion
 
     #region Event Functions
@@ -23,9 +52,8 @@ public class VignetteController : MonoBehaviour {
     /// </summary>
     private void PassOut()
     {
-        VignetteModel.Settings vignetteSettings = ppp.vignette.settings;
-        vignetteSettings.intensity = ppp.vignette.settings.intensity + .2f;
-        ppp.vignette.settings = vignetteSettings;
+        isLerping = true;
+        newIntensity += .2f;
     }
     #endregion
 }
