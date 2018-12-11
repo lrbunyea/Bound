@@ -46,7 +46,8 @@ public class DialogueManager : MonoBehaviour {
         "That’s what the package told me.",
         "Then, later, when I googled it, the internet told me the same thing.",
         "So, I said, “Fuck it” and now I’m here where I went to middle school like… eight years ago.",
-        "Wearing this binder that I’m not supposed to and running shoes that I haven’t touched since I came out."};
+        "Wearing this binder that I’m not supposed to and running shoes that I haven’t touched since I came out.",
+        "I’m ready to be that kid with windswept hair and basketball shorts again."};
 
         postMinigameDialogue = new string[]
         {

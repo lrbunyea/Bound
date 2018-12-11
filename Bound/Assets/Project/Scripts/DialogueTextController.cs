@@ -55,7 +55,6 @@ public class DialogueTextController : MonoBehaviour {
                 else
                 {
                     next = DialogueManager.Instance.GetNextIntroLine();
-                    GetLineTimer(next);
                     //Check to see if we are at the end of the section
                     if (next == "")
                     {
@@ -69,6 +68,8 @@ public class DialogueTextController : MonoBehaviour {
                     }
                     else
                     {
+                        SoundManager.Instance.SwitchDialogueClip();
+                        GetLineTimer();
                         WriteText(next);
                         sameWord = true;
                     }
@@ -84,7 +85,6 @@ public class DialogueTextController : MonoBehaviour {
                 else
                 {
                     next = DialogueManager.Instance.GetNextPreminigameLine();
-                    GetLineTimer(next);
                     //Check to see if we are at the end of the section
                     if (next == "")
                     {
@@ -93,6 +93,8 @@ public class DialogueTextController : MonoBehaviour {
                     }
                     else
                     {
+                        SoundManager.Instance.SwitchDialogueClip();
+                        GetLineTimer();
                         WriteText(next);
                         sameWord = true;
                     }
@@ -108,7 +110,6 @@ public class DialogueTextController : MonoBehaviour {
                 else
                 {
                     next = DialogueManager.Instance.GetNextPostLine();
-                    GetLineTimer(next);
                     //Check to see if we are at the end of the section
                     if (next == "")
                     {
@@ -118,6 +119,8 @@ public class DialogueTextController : MonoBehaviour {
                     }
                     else
                     {
+                        SoundManager.Instance.SwitchDialogueClip();
+                        GetLineTimer();
                         WriteText(next);
                         sameWord = true;
                     }
@@ -177,10 +180,9 @@ public class DialogueTextController : MonoBehaviour {
     /// Calulates the proper amount of time to display a line of dialogue for based on character length.
     /// </summary>
     /// <param name="line">Line of dialogue to analyze.</param>
-    private void GetLineTimer(string line)
+    private void GetLineTimer()
     {
-        int chars = line.Length;
-        timeLeft = chars * .1f;
+        timeLeft = SoundManager.Instance.CurrentLineTime();
     }
     #endregion
 }

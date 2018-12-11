@@ -14,6 +14,10 @@ public class SoundManager : MonoBehaviour {
     [SerializeField] AudioSource running;
     [SerializeField] AudioSource regularBreathing;
     [SerializeField] AudioSource sharpBreath;
+    [SerializeField] AudioSource dialogue;
+
+    //references to dialogue audio clips by location
+    [SerializeField] AudioClip[] dialogueClips;
 
     public float carClipLength;
     private float breathingTimer;
@@ -23,6 +27,7 @@ public class SoundManager : MonoBehaviour {
     private bool runningFade;
     private bool breathingFade;
     private bool sharpBreathPlaying;
+    private int dcIndex;
     #endregion
 
     private void Awake()
@@ -40,6 +45,7 @@ public class SoundManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        dcIndex = -1;
         carClipLength = car.clip.length;
         breathingTimer = sharpBreath.clip.length;
         timeLeft = breathingTimer;
@@ -119,6 +125,7 @@ public class SoundManager : MonoBehaviour {
         }
     }
 
+    #region Helper Functions
     /// <summary>
     /// Function that is called when the player presses an incorrect key.
     /// </summary>
@@ -129,13 +136,41 @@ public class SoundManager : MonoBehaviour {
         sharpBreathPlaying = true;
     }
 
+    /// <summary>
+    /// Plays the next line of dialogue when called
+    /// </summary>
+    public void SwitchDialogueClip()
+    {
+        dialogue.Stop();
+        dcIndex++;
+        if (dcIndex == dialogueClips.Length)
+        {
+            return;
+        } else
+        {
+            dialogue.clip = dialogueClips[dcIndex];
+            dialogue.Play();
+        }
+    }
+
+
+    /// <summary>
+    /// Helps the dialogue text controller know how long to display line text.
+    /// </summary>
+    /// <returns>The length, in seconds, of the dialogue clip that is currently playing</returns>
+    public float CurrentLineTime()
+    {
+        return dialogue.clip.length;
+    }
+    #endregion
+
     #region Play Functions
     /// <summary>
     /// Plays the hospital sound audio source.
     /// </summary>
     public void PlayHospital()
     {
-        hospital.volume = 1;
+        hospital.volume = .2f;
         hospital.Play();
     }
 
@@ -169,6 +204,14 @@ public class SoundManager : MonoBehaviour {
     public void PlayBreathing()
     {
         regularBreathing.Play();
+    }
+
+    /// <summary>
+    /// Plays the dialogue audio source.
+    /// </summary>
+    public void PlayDialogue()
+    {
+        dialogue.Play();
     }
     #endregion
 
