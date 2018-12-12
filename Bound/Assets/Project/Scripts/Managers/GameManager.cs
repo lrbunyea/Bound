@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private void SetDefaultMinigameValues()
     {
-        startingSpeed = 2;
+        startingSpeed = 6.5f;
         currentSpeed = startingSpeed;
         currentSpeedMult = .5f;
         speedMultIncrement = 0.3f;
