@@ -132,13 +132,13 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private void SetDefaultMinigameValues()
     {
-        startingSpeed = 6.5f;
+        startingSpeed = 8f;
         currentSpeed = startingSpeed;
         currentSpeedMult = .5f;
-        speedMultIncrement = 0.3f;
-        startingSpawnTimer = 1f;
+        speedMultIncrement = 0.4f;
+        startingSpawnTimer = 2f;
         currentSpawnTimer = startingSpawnTimer;
-        spawnTimerDec = .1f;
+        spawnTimerDec = .2f;
         conLoss = 20;
         timeStageDuration = 20;
         currentTimeStage = 0;
