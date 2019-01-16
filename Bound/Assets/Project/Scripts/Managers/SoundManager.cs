@@ -15,6 +15,8 @@ public class SoundManager : MonoBehaviour {
     [SerializeField] AudioSource regularBreathing;
     [SerializeField] AudioSource sharpBreath;
     [SerializeField] AudioSource dialogue;
+    [SerializeField] AudioSource buttonClick;
+    [SerializeField] AudioSource buttonHover;
 
     //references to dialogue audio clips by location
     [SerializeField] AudioClip[] dialogueClips;
@@ -173,6 +175,24 @@ public class SoundManager : MonoBehaviour {
     #endregion
 
     #region Play Functions
+    /// <summary>
+    /// Plays the button click audio source. But first stops it if it's in the middle of playing the sound.
+    /// </summary>
+    public void PlayButtonClick()
+    {
+        buttonClick.Stop();
+        buttonClick.Play();
+    }
+
+    /// <summary>
+    /// Plays the button hover audio source. But first stops it if it's in the middle of playing the sound.
+    /// </summary>
+    public void PlayButtonHover()
+    {
+        buttonHover.Stop();
+        buttonHover.Play();
+    }
+    
     /// <summary>
     /// Plays the hospital sound audio source.
     /// </summary>
