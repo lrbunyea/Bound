@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
@@ -71,9 +72,6 @@ public class GameManager : MonoBehaviour {
             Instance = this;
         }
 
-        //Initialize minigame values
-        SetDefaultMinigameValues();
-
         //Initialize all events - Must be in the awake function
         MinigameStart = new UnityEvent();
         CorrectWKeyPress = new UnityEvent();
@@ -87,12 +85,7 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        //set current game state
-        SetGameStateToMainMenu();
-        currentConsciousness = 100;
-        hasLogged = false;
-        tsdTimeLeft = timeStageDuration;
-        spawnTimeLeft = currentSpawnTimer;
+        ResetGameData();
 
         //Register functions to events
         MinigameStart.AddListener(SetGameStateToMinigame);
@@ -184,12 +177,36 @@ public class GameManager : MonoBehaviour {
 
     #region Helper Functions
     /// <summary>
+    /// Reloads the game when it ends. Called in the DialogueTextController script.
+    /// </summary>
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene("Main");
+    }
+
+    /// <summary>
+    /// Initialize proper values for the start of the game. Is also called when the game restarts.
+    /// </summary>
+    private void ResetGameData()
+    {
+        SetDefaultMinigameValues();
+        //set current game state
+        SetGameStateToMainMenu();
+        currentConsciousness = 100;
+        hasLogged = false;
+        tsdTimeLeft = timeStageDuration;
+        spawnTimeLeft = currentSpawnTimer;
+    }
+
+    /// <summary>
     /// Signals to the game manager that the player is in the main menu and to disable movement controls
     /// </summary>
     public void SetGameStateToMainMenu()
     {
         currentState = GameState.MainMenu;
         fpsCont.GetComponent<FirstPersonController>().enabled = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
 
@@ -209,7 +226,6 @@ public class GameManager : MonoBehaviour {
     {
         currentState = GameState.Minigame;
         fpsCont.GetComponent<FirstPersonController>().enabled = false;
-
     }
 
     /// <summary>

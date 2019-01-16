@@ -114,8 +114,9 @@ public class DialogueTextController : MonoBehaviour {
                     if (next == "")
                     {
                         //end the game
-                        Application.Quit();
-                        //This should not be done here, will move later
+                        GameManager.Instance.ReloadScene();
+                        
+                        
                     }
                     else
                     {

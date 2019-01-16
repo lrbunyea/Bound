@@ -47,15 +47,7 @@ public class SoundManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        dcIndex = -1;
-        carClipLength = car.clip.length;
-        breathingTimer = sharpBreath.clip.length;
-        timeLeft = breathingTimer;
-        hospitalFade = false;
-        musicFade = false;
-        runningFade = false;
-        breathingFade = false;
-        sharpBreathPlaying = false;
+        ResetSoundData();
 
         //register functions to events
         GameManager.Instance.ConPenalty.AddListener(TakeSharpBreath);
@@ -129,6 +121,22 @@ public class SoundManager : MonoBehaviour {
     }
 
     #region Helper Functions
+    /// <summary>
+    /// Initialize proper values for the start of the game. Is also called when the game restarts.
+    /// </summary>
+    private void ResetSoundData()
+    {
+        dcIndex = -1;
+        carClipLength = car.clip.length;
+        breathingTimer = sharpBreath.clip.length;
+        timeLeft = breathingTimer;
+        hospitalFade = false;
+        musicFade = false;
+        runningFade = false;
+        breathingFade = false;
+        sharpBreathPlaying = false;
+    }
+
     /// <summary>
     /// Function that is called when the player presses an incorrect key.
     /// </summary>

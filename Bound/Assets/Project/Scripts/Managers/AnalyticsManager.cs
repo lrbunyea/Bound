@@ -34,11 +34,11 @@ public class AnalyticsManager : MonoBehaviour {
     }
 
     void Start () {
-        timePlayed = 0;
-        hasStarted = false;
         //Open streamwriter to write analytics to a CSV file
         filePath = Application.dataPath + "PlayerData.csv";
         writer = new StreamWriter(filePath, true);
+
+        ResetAnalyticsData();
 
         //Register functions for events
         GameManager.Instance.MinigameStart.AddListener(LogTimeSpentPreMinigame);
@@ -51,13 +51,21 @@ public class AnalyticsManager : MonoBehaviour {
         }
 	}
 
-    void OnDestroy()
+   void OnDestroy()
     {
         //Close the stream writer
         writer.Flush();
         writer.Close();
     }
     #endregion
+    /// <summary>
+    /// Initialize proper values for the start of the game. Is also called when the game restarts.
+    /// </summary>
+    private void ResetAnalyticsData()
+    {
+        timePlayed = 0;
+        hasStarted = false;
+    }
 
     #region Events To Track
     /// <summary>
@@ -139,6 +147,7 @@ public class AnalyticsManager : MonoBehaviour {
         writer.WriteLine("");
         writer.WriteLine("SpeedMulitplierIncrement,StartingSpeed,StartingSpawnTimer,SpawnTimerDecrement,TimeStageDuration,ConsciousnessLoss");
         writer.WriteLine(GameManager.Instance.speedMultIncrement+","+GameManager.Instance.startingSpeed+","+GameManager.Instance.startingSpawnTimer+","+GameManager.Instance.spawnTimerDec+","+GameManager.Instance.timeStageDuration+","+GameManager.Instance.conLoss);
+        
     }
     #endregion
 }

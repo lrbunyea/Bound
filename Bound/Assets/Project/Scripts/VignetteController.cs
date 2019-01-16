@@ -18,8 +18,11 @@ public class VignetteController : MonoBehaviour {
     void Start () {
         ppp = GetComponent<PostProcessingBehaviour>().profile;
         vignetteSettings = ppp.vignette.settings;
-        newIntensity = ppp.vignette.settings.intensity;
-        currentIntensity = ppp.vignette.settings.intensity;
+        //Reset the profile, it doesn't do this automatically when the scene is reloaded
+        vignetteSettings.intensity = 0.4f;
+        ppp.vignette.settings = vignetteSettings;
+        newIntensity = 0.4f;
+        currentIntensity = 0.4f;
         lerpCount = 0;
         GameManager.Instance.ConPenalty.AddListener(PassOut);
 	}

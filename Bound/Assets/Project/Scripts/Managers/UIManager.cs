@@ -40,12 +40,7 @@ public class UIManager : MonoBehaviour {
 
     void Start()
     {
-        //Initialize default minigame state
-        HideMinigame();
-        PopulateMinigameValues();
-
-        //Hide the credit canvas
-        HideCredits();
+        ShowMainMenu();
 
         //Register listeners for input events
         GameManager.Instance.MinigameStart.AddListener(ShowMinigame);
@@ -105,6 +100,19 @@ public class UIManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Initialize proper values for the start of the game. Is also called when the game restarts.
+    /// </summary>
+    public void ShowMainMenu()
+    {
+        //Initialize default minigame state
+        HideMinigame();
+        PopulateMinigameValues();
+
+        //Hide the credit canvas
+        HideCredits();
+    }
+
+    /// <summary>
     /// Disables the main menu UI from showing on the screen
     /// </summary>
     public void HideMainMenu()
@@ -113,6 +121,14 @@ public class UIManager : MonoBehaviour {
         AnalyticsManager.Instance.hasStarted = true;
         GameManager.Instance.StartBlackScreen.Invoke();
         GameManager.Instance.SetGameStateToBlackScreen();
+    }
+
+    /// <summary>
+    /// Function that quits the application when the quit button is pressed.
+    /// </summary>
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     /// <summary>

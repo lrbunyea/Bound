@@ -30,32 +30,7 @@ public class DialogueManager : MonoBehaviour {
 
     private void Start()
     {
-        introductionDialogue = new string[]
-        {
-            "Are you in any pain?",
-            "No.",
-            "Can you tell me what happened?",
-            "I went on a run."
-        };
-
-        preMinigameDialogue = new string[] { "Every day after lunch, I used to fly down this sidewalk and up those stairs to the track.",
-        "My friends were never able to catch up with me so they would just lean back on the chain link fence and watch. Flashing me a thumbs up when I blew by.",
-        "I want that again.",
-        "“Do not, under any circumstances, wear for more than eight hours a day.”",
-        "“Do not wear during strenuous physical activity.”",
-        "That’s what the package told me.",
-        "Then, later, when I googled it, the internet told me the same thing.",
-        "So, I said, “Fuck it” and now I’m here where I went to middle school like… eight years ago.",
-        "Wearing this binder that I’m not supposed to and running shoes that I haven’t touched since I came out.",
-        "I’m ready to be that kid with windswept hair and basketball shorts again."};
-
-        postMinigameDialogue = new string[]
-        {
-            "But I was wearing a binder and it was hard to breathe. So, I just… Passed out.",
-            "Why didn’t you stop?",
-            "I don’t know. I think I’m just tired of feeling helpless.",
-            "Helpless? I’m afraid that I don’t understand."
-        };
+        ResetDialogueProgress();
     }
     #endregion
 
@@ -117,6 +92,39 @@ public class DialogueManager : MonoBehaviour {
             return "";
         }
 
+    }
+
+    /// <summary>
+    /// Resets the dialogue arrays to original script. Called when the game ends incase the game is replayed.
+    /// </summary>
+    private void ResetDialogueProgress()
+    {
+        introductionDialogue = new string[]
+         {
+            "Are you in any pain?",
+            "No.",
+            "Can you tell me what happened?",
+            "I went on a run."
+         };
+
+        preMinigameDialogue = new string[] { "Every day after lunch, I used to fly down this sidewalk and up those stairs to the track.",
+        "My friends were never able to catch up with me so they would just lean back on the chain link fence and watch. Flashing me a thumbs up when I blew by.",
+        "I want that again.",
+        "“Do not, under any circumstances, wear for more than eight hours a day.”",
+        "“Do not wear during strenuous physical activity.”",
+        "That’s what the package told me.",
+        "Then, later, when I googled it, the internet told me the same thing.",
+        "So, I said, “Fuck it” and now I’m here where I went to middle school like… eight years ago.",
+        "Wearing this binder that I’m not supposed to and running shoes that I haven’t touched since I came out.",
+        "I’m ready to be that kid with windswept hair and basketball shorts again."};
+
+        postMinigameDialogue = new string[]
+        {
+            "But I was wearing a binder and it was hard to breathe. So, I just… Passed out.",
+            "Why didn’t you stop?",
+            "I don’t know. I think I’m just tired of feeling helpless.",
+            "Helpless? I’m afraid that I don’t understand."
+        };
     }
     #endregion
 }
