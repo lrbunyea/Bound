@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour {
     //UI object references
     [SerializeField] GameObject minigameCanvas;
     [SerializeField] GameObject mainMenuCanvas;
+    [SerializeField] GameObject creditsCanvas;
     [SerializeField] GameObject blackScreenPanel;
     //minigame values
     [SerializeField] InputField ssField;
@@ -43,6 +44,9 @@ public class UIManager : MonoBehaviour {
         HideMinigame();
         PopulateMinigameValues();
 
+        //Hide the credit canvas
+        HideCredits();
+
         //Register listeners for input events
         GameManager.Instance.MinigameStart.AddListener(ShowMinigame);
         GameManager.Instance.EndBlackScreen.AddListener(FadeInPanel);
@@ -51,6 +55,22 @@ public class UIManager : MonoBehaviour {
     #endregion
 
     #region UI Manipulation Functions
+    /// <summary>
+    /// Hides the credits screen after the back button is pressed.
+    /// </summary>
+    public void HideCredits()
+    {
+        creditsCanvas.SetActive(false);
+    }
+
+    /// <summary>
+    /// Pulls up the credits screen after the button is pressed from the main menu.
+    /// </summary>
+    public void ShowCredits()
+    {
+        creditsCanvas.SetActive(true);
+    }
+
     /// <summary>
     /// Enables the minigame UI to display on the screen.
     /// </summary>
