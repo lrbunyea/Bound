@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour {
         currentSpawnTimer = startingSpawnTimer;
         spawnTimerDec = .2f;
         conLoss = 20;
-        timeStageDuration = 20;
+        timeStageDuration = 8;
         currentTimeStage = 0;
     }
 
