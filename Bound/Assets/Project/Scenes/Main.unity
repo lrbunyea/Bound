@@ -28318,9 +28318,9 @@ MonoBehaviour:
   buttonClick: {fileID: 2096666717}
   buttonHover: {fileID: 644883850}
   dialogueClips:
-  - {fileID: 8300000, guid: c067e3f372df9fc4ea9738711b94aba4, type: 3}
+  - {fileID: 8300000, guid: 2510cc84ab1dbb24ea9922e777c3b5df, type: 3}
   - {fileID: 8300000, guid: 53e2c31716175e546b65eaaf8d197c4f, type: 3}
-  - {fileID: 8300000, guid: e334679b8af8f5b4bbf9ca7abfdb5f69, type: 3}
+  - {fileID: 8300000, guid: cfc888380b325fe41a053cfb778be0e0, type: 3}
   - {fileID: 8300000, guid: 9602ecfdab85d2b48951e626422173a6, type: 3}
   - {fileID: 8300000, guid: 49548254b3c4e32499ed68b673bd24bb, type: 3}
   - {fileID: 8300000, guid: d0374ed3625266d459d4b6c207632431, type: 3}
@@ -28333,9 +28333,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d54ceb8ddd0f69d469ee45e324fce7ef, type: 3}
   - {fileID: 8300000, guid: 4ad2b20b4e8d1a14aaa7b600616239c5, type: 3}
   - {fileID: 8300000, guid: 0c0f9c4bfa295e445971fd30578e6fbd, type: 3}
-  - {fileID: 8300000, guid: b667d51679e0f0a4998cb1a4a0e1e38b, type: 3}
+  - {fileID: 8300000, guid: be125f7b97e182044b0622e324d19fb6, type: 3}
   - {fileID: 8300000, guid: 7af21da55afe4e74593fa4a5e67e6c55, type: 3}
-  - {fileID: 8300000, guid: 3a6cc4f0b5dd6904580422008a0c5cf7, type: 3}
+  - {fileID: 8300000, guid: 5f4eda56059ed8d449ce1375a4ef9517, type: 3}
   carClipLength: 0
 --- !u!4 &978928301
 Transform:
