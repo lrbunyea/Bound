@@ -10,6 +10,7 @@ public class DialogueTextController : MonoBehaviour {
     //Change these to enum
     private bool isIntro;
     private bool isPreMinigame;
+    private bool isPriming;
     private bool isPostMinigame;
     private bool waitingForCar; //True if the audio for xiting the car is currently playing
     private float timeLeft;     //The time left to display the current line on the screen
@@ -23,12 +24,14 @@ public class DialogueTextController : MonoBehaviour {
         dialogueText = GetComponent<Text>();
         isIntro = false;
         isPreMinigame = false;
+        isPriming = false;
         isPostMinigame = false;
         sameWord = false;
         waitingForCar = false;
         //Register functions to events
         GameManager.Instance.StartBlackScreen.AddListener(PlayIntro);
         GameManager.Instance.EndBlackScreen.AddListener(PlayPostMinigame);
+        GameManager.Instance.PrimingBlackScreen.AddListener(PlayPriming);
     }
 
     void Update () {
@@ -100,6 +103,33 @@ public class DialogueTextController : MonoBehaviour {
                     }
                 }
             }
+            else if (isPriming)
+            {
+                //Check if we're waiting for the same word
+                if (sameWord)
+                {
+                    WriteText(next);
+                }
+                else
+                {
+                    next = DialogueManager.Instance.GetNextPrimingLine();
+                    //Check to see if we are at the end of the section
+                    if (next == "")
+                    {
+                        isPriming = false;
+                        dialogueText.text = "";
+                        UIManager.Instance.FadeOutPanel();
+                        GameManager.Instance.MinigameStart.Invoke();
+                    }
+                    else
+                    {
+                        SoundManager.Instance.SwitchDialogueClip();
+                        GetLineTimer();
+                        WriteText(next);
+                        sameWord = true;
+                    }
+                }
+            }
             else if (isPostMinigame)
             {
                 //Check if we're waiting for the same word
@@ -115,8 +145,6 @@ public class DialogueTextController : MonoBehaviour {
                     {
                         //end the game
                         GameManager.Instance.ReloadScene();
-                        
-                        
                     }
                     else
                     {
@@ -157,6 +185,15 @@ public class DialogueTextController : MonoBehaviour {
     private void PlayPostMinigame()
     {
         isPostMinigame = true;
+    }
+
+    /// <summary>
+    /// Flags thay the game is currently going through the priming sequence immediately before the minigame.
+    /// Signals this chunk of dialogue should be played.
+    /// </summary>
+    private void PlayPriming()
+    {
+        isPriming = true;
     }
     #endregion
 

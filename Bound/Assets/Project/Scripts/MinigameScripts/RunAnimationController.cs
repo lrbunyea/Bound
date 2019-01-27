@@ -29,28 +29,6 @@ public class RunAnimationController : MonoBehaviour {
 
     private void Update()
     {
-        if (walkingUp)
-        {
-            float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, target, step);
-            if (transform.position == target)
-            {
-                walkingUp = false;
-                isRotating = true;
-                
-            }
-        }
-
-        if (isRotating)
-        {
-            transform.Rotate(new Vector3(0, -1, 0));
-            if(Mathf.Round(transform.eulerAngles.y) == 270)
-            {
-                isRotating = false;
-                GameManager.Instance.MinigameStart.Invoke();
-            }
-        }
-
         if (isSlow)
         {
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("running"))

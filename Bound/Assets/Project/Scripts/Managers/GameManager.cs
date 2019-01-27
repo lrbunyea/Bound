@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour {
     public UnityEvent CorrectDKeyPress;
     public UnityEvent ConPenalty;
     public UnityEvent StartBlackScreen;
+    public UnityEvent PrimingBlackScreen;
     public UnityEvent EndBlackScreen;
 
     //editable variables
@@ -80,6 +81,7 @@ public class GameManager : MonoBehaviour {
         CorrectDKeyPress = new UnityEvent();
         ConPenalty = new UnityEvent();
         StartBlackScreen = new UnityEvent();
+        PrimingBlackScreen = new UnityEvent();
         EndBlackScreen = new UnityEvent();
     }
 

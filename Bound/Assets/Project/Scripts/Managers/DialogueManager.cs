@@ -12,6 +12,7 @@ public class DialogueManager : MonoBehaviour {
     //Introduction narration
     private string[] introductionDialogue;  //Dialogue to be played during introductory black screen
     private string[] preMinigameDialogue;   //Dialogue to be played during preminigame sequence
+    private string[] primingDialogue;       //Dialogue to be played just before the minigame starts, when the screen is black
     private string[] postMinigameDialogue;  //Dialogue to be played after players fail the minigame
     #endregion
 
@@ -75,6 +76,26 @@ public class DialogueManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Cycles through the priming dialogue, returning the next line in the sequence, then deleting it from the array.
+    /// </summary>
+    /// <returns>The next dialogue line for the player to read.</returns>
+    public string GetNextPrimingLine()
+    {
+        if (primingDialogue.Length != 0)
+        {
+            string nextLine = primingDialogue[0];
+            string[] newDialogueQueue = primingDialogue.Skip(1).ToArray();
+            primingDialogue = newDialogueQueue;
+            return nextLine;
+        }
+        else
+        {
+            return "";
+        }
+
+    }
+
+    /// <summary>
     /// Cycles through the post minigame dialogue, returning the next line in the sequence, then deleting it from the array.
     /// </summary>
     /// <returns>The next dialogue line for the player to read.</returns>
@@ -115,8 +136,12 @@ public class DialogueManager : MonoBehaviour {
         "That’s what the package told me.",
         "Then, later, when I googled it, the internet told me the same thing.",
         "So, I said, “Fuck it” and now I’m here where I went to middle school like… eight years ago.",
-        "Wearing this binder that I’m not supposed to and running shoes that I haven’t touched since I came out.",
-        "I’m ready to be that kid with windswept hair and basketball shorts again."};
+        "Wearing this binder that I’m not supposed to and running shoes that I haven’t touched since I came out."};
+
+        primingDialogue = new string[]
+        {
+            "I’m ready to be that kid with windswept hair and basketball shorts again."
+        };
 
         postMinigameDialogue = new string[]
         {

@@ -7,8 +7,9 @@ public class MiniGameTrigger : MonoBehaviour {
     #region Unity API Functions
     private void OnTriggerEnter(Collider other)
     {
+        UIManager.Instance.FadeInPanel();
         GameManager.Instance.DisablePlayerMovement();
-        other.gameObject.GetComponent<RunAnimationController>().walkingUp = true;
+        GameManager.Instance.PrimingBlackScreen.Invoke();
     }
     #endregion
 }
