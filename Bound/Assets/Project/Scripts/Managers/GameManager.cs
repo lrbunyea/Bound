@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour {
     public int currentTimeStage;
     public GameState currentState;
     private bool hasLogged;
+    private bool firstPrompt;
     //private variables
     [SerializeField] float tsdTimeLeft;
     [SerializeField] float spawnTimeLeft;
@@ -88,6 +89,7 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         ResetGameData();
+        firstPrompt = true;
 
         //Register functions to events
         MinigameStart.AddListener(SetGameStateToMinigame);
@@ -144,12 +146,21 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private void SpawnKey()
     {
-        spawnTimeLeft -= Time.deltaTime;
-        if (spawnTimeLeft < 0)
+        if (firstPrompt)
         {
             spawnTimeLeft = currentSpawnTimer;
             int item = Random.Range(0, allKeys.Length);
             Instantiate(allKeys[item], minigamePanel.transform);
+            firstPrompt = false;
+        } else
+        {
+            spawnTimeLeft -= Time.deltaTime;
+            if (spawnTimeLeft < 0)
+            {
+                spawnTimeLeft = currentSpawnTimer;
+                int item = Random.Range(0, allKeys.Length);
+                Instantiate(allKeys[item], minigamePanel.transform);
+            }
         }
     }
 
